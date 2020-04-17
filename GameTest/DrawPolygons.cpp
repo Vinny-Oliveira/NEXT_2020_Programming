@@ -21,7 +21,8 @@ namespace DrawPolygons {
 				vertex.second = vstart_y;
 				vertices.push_back(vertex);
 			
-				App::DrawLine(vstart_x, vstart_y, vend_x, vend_y, r, g, b);
+				ShipSlot ship{ vstart_x, vstart_y, vend_x, vend_y, size / corners };
+				//App::DrawLine(vstart_x, vstart_y, vend_x, vend_y, r, g, b);
 
 				vstart_x = vend_x;
 				vstart_y = vend_y;
@@ -40,7 +41,7 @@ namespace DrawPolygons {
 	}
 
 	void DrawSquareLevel(float sx, float sy, float size, float scale, float angle, float r, float g, float b) {
-		float innerOffset{ 2 * size / 8 };
+		float innerOffset{ 3 * size / 8 };
 		auto outerVertices{ DrawPolygon(sx, sy, size, 4, angle, r, g, b) };
 		auto innerVertices{ DrawPolygon(sx + innerOffset, sy + innerOffset, size * scale, 4, angle, r, g, b) };
 

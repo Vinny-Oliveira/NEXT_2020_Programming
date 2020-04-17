@@ -16,6 +16,7 @@
 //------------------------------------------------------------------------
 CSimpleSprite* testSprite;
 CSimpleSprite* testSprite2;
+CSimpleSprite* shipSprite;
 enum
 {
 	ANIM_FORWARDS,
@@ -43,10 +44,21 @@ void Init()
 	testSprite->CreateAnimation(ANIM_FORWARDS, speed, { 24,25,26,27,28,29,30,31 });
 	testSprite->SetScale(2.0f);
 
-	testSprite2 = App::CreateSprite(".\\TestData\\Ships.bmp", 2, 12);
-	testSprite2->SetPosition(400.0f, 400.0f);
-	testSprite2->SetFrame(2);
-	testSprite2->SetScale(1.0f);
+	//testSprite2 = App::CreateSprite(".\\TestData\\Ships.bmp", 2, 12);
+	//testSprite2->SetPosition(400.0f, 400.0f);
+	//testSprite2->SetFrame(2);
+	//testSprite2->SetScale(1.0f);
+
+	// Square corners
+	float sx = 200.0f;
+	float sy = 200.0f;
+	float size = 500.0f;
+	int corners = 4;
+
+	shipSprite = App::CreateSprite(".\\TestData\\Ships.bmp", 2, 12);
+	shipSprite->SetPosition(sx + size / (2 * corners), sy);
+	shipSprite->SetFrame(0);	
+	shipSprite->SetScale(0.8f);
 	//------------------------------------------------------------------------
 }
 
@@ -59,7 +71,8 @@ void Update(float deltaTime)
 	//------------------------------------------------------------------------
 	// Example Sprite Code....
 	testSprite->Update(deltaTime);
-	testSprite2->Update(deltaTime);
+	//testSprite2->Update(deltaTime);
+	shipSprite->Update(deltaTime);
 	if (App::GetController().GetLeftThumbStickX() > 0.5f)
 	{
 		testSprite->SetAnimation(ANIM_RIGHT);
@@ -165,6 +178,7 @@ void Render()
 	// Example Sprite Code....
 	/*testSprite->Draw();
 	testSprite2->Draw();*/
+	shipSprite->Draw();
 	//------------------------------------------------------------------------
 
 	//------------------------------------------------------------------------

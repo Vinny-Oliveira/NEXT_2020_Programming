@@ -4,6 +4,7 @@
 #include <math.h>
 #include <vector>
 #include "App/app.h"
+#include "ShipSlot.h"
 
 namespace DrawPolygons {
 
@@ -22,7 +23,9 @@ namespace DrawPolygons {
 	//-------------------------------------------------------------------------------------------
 	float FindNextVertexY(float ycoord, float size, float angle = 0.0f);
 
-
+	//-------------------------------------------------------------------------------------------
+	// Draw a level with an outer square and an inner square
+	//-------------------------------------------------------------------------------------------
 	void DrawSquareLevel(float sx, float sy, float size, float scale, float angle = 0.0f, float r = 1.0f, float g = 1.0f, float b = 1.0f);
 }
 
