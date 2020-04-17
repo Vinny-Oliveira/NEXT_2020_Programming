@@ -2,6 +2,7 @@
 #define _DRAW_POLYGONS_H_
 
 #include <math.h>
+#include <vector>
 #include "App/app.h"
 
 namespace DrawPolygons {
@@ -9,7 +10,7 @@ namespace DrawPolygons {
 	//-------------------------------------------------------------------------------------------
 	// Draw a polygon with a vertex on (sx, sy), side length size, a number of corners, base angle in degrees, and colors r,g,b
 	//-------------------------------------------------------------------------------------------
-	void DrawPolygon(float sx, float sy, float size, int corners, float angle = 0.0f, float r = 1.0f, float g = 1.0f, float b = 1.0f);
+	std::vector<std::pair<float, float>> DrawPolygon(float sx, float sy, float size, int corners, float angle = 0.0f, float r = 1.0f, float g = 1.0f, float b = 1.0f);
 	
 	//-------------------------------------------------------------------------------------------
 	// When drawing the side of a 2D shape of side length size, find the x coordinate of the next vertex
