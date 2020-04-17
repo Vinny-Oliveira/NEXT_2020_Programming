@@ -153,12 +153,18 @@ void Render()
 	//}
 
 	// Square corners
-	DrawPolygons::DrawPolygon(200.0f, 200.0f, 200.0f, 8);
+	float sx = 200.0f;
+	float sy = 200.0f;
+	float size = 500.0f;
+	int corners = 4;
+	float scale = 0.25f;
+
+	DrawPolygons::DrawSquareLevel(sx, sy, size, scale);
 
 	//------------------------------------------------------------------------
 	// Example Sprite Code....
-	testSprite->Draw();
-	testSprite2->Draw();
+	/*testSprite->Draw();
+	testSprite2->Draw();*/
 	//------------------------------------------------------------------------
 
 	//------------------------------------------------------------------------

@@ -26,4 +26,10 @@ namespace DrawPolygons {
 	float FindNextVertexY(float ycoord, float size, float angle) {
 		return (size * sinf(angle * PI / 180) + ycoord);
 	}
+
+	void DrawSquareLevel(float sx, float sy, float size, float scale, float angle, float r, float g, float b) {
+		float innerOffset{ 3 * size / 8 };
+		DrawPolygon(sx, sy, size, 4, angle, r, g, b);
+		DrawPolygon(sx + innerOffset, sy + innerOffset, size * scale, 4, angle, r, g, b);
+	}
 }

@@ -21,6 +21,8 @@ namespace DrawPolygons {
 	//-------------------------------------------------------------------------------------------
 	float FindNextVertexY(float ycoord, float size, float angle = 0.0f);
 
+
+	void DrawSquareLevel(float sx, float sy, float size, float scale, float angle = 0.0f, float r = 1.0f, float g = 1.0f, float b = 1.0f);
 }
 
 #endif // !_DRAW_POLYGONS_H_
