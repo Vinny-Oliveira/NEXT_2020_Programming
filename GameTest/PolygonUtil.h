@@ -32,6 +32,7 @@ namespace PolygonUtil {
 	// Populate a vector of ship slots with the proper coordinates
 	//-------------------------------------------------------------------------------------------
 	void PopulateShipVector(std::vector<ShipSlot>& shipVec, const std::vector<std::pair<float, float>>& coordinates, float size, int corners);
+	void PopulateShipVector(std::vector<ShipSlot>& shipVec, const std::vector<std::pair<float, float>>& coordinates, float size, int corners, std::vector<ShipSlot>::iterator& it);
 }
 
 #endif // !_POLYGON_UTIL_H_

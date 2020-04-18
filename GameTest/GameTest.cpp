@@ -19,8 +19,13 @@
 CSimpleSprite* testSprite;
 CSimpleSprite* testSprite2;
 CSimpleSprite* shipSprite;
-std::vector<ShipSlot> shipSlots;
-std::vector<ShipSlot> enemySlots;
+
+std::vector<ShipSlot> shipSlots{};
+std::vector<ShipSlot> enemySlots{};
+std::vector<std::pair<float, float>> shipCoordinates{};
+std::vector<std::pair<float, float>> enemyCoordinates{};
+std::vector<ShipSlot>::iterator shipIterator{ shipSlots.begin() };
+
 enum
 {
 	ANIM_FORWARDS,
@@ -53,22 +58,25 @@ void Init()
 	//testSprite2->SetFrame(2);
 	//testSprite2->SetScale(1.0f);
 
-	// Square corners
-	float sx = 200.0f;
-	float sy = 200.0f;
-	float size = 500.0f;
-	int corners = 4;
+	float sx{ 200.0f };
+	float sy{ 200.0f };
+	float size{ 500.0f };
+	int corners{ 4 };
+	float scale{ 0.25f };
+	float offset{ 3 * size / 8 };
 
 	shipSprite = App::CreateSprite(".\\TestData\\Ships.bmp", 2, 12);
-	shipSprite->SetPosition(sx, sy);
+	shipSprite->SetPosition(sx + size/(2*corners), sy);
 	shipSprite->SetFrame(0);	
 	shipSprite->SetScale(0.8f);
 
-	//for (auto i{ 1 }; i < coordinates.size(); i++) {
-	//	shipSlots.push_back({ coordinates.at(i-1).first, coordinates.at(i-1).second, coordinates.at(i).first, coordinates.at(i).second, size / corners });
-	//}
+	// Draw the slots of the outer shape
+	shipCoordinates = PolygonUtil::PolygonCoordinates(sx, sy, size, corners);
+	PolygonUtil::PopulateShipVector(shipSlots, shipCoordinates, size, corners, shipIterator);
 
-	//ShipSlot ship{ sx, sy, sx + size, sy + size, size };
+	// Draw the slots of the inner shape
+	enemyCoordinates = PolygonUtil::PolygonCoordinates(sx + offset, sy + offset, size * scale, corners);
+	PolygonUtil::PopulateShipVector(enemySlots, enemyCoordinates, size, corners);
 
 	//------------------------------------------------------------------------
 }
@@ -84,38 +92,73 @@ void Update(float deltaTime)
 	testSprite->Update(deltaTime);
 	//testSprite2->Update(deltaTime);
 	shipSprite->Update(deltaTime);
-	if (App::GetController().GetLeftThumbStickX() > 0.5f)
-	{
+
+	if (App::GetController().CheckButton(XINPUT_GAMEPAD_DPAD_UP)) {
+		shipIterator++;
+		if (shipIterator == shipSlots.end()) {
+			shipIterator = shipSlots.begin();
+		}
+		shipSprite->SetPosition(shipIterator->GetCenterX(), shipIterator->GetCenterY());
+	}
+
+	if (App::GetController().CheckButton(XINPUT_GAMEPAD_DPAD_DOWN)) {
+		if (shipIterator == shipSlots.begin()) {
+			shipIterator = shipSlots.end();
+		}
+		shipIterator--;
+		shipSprite->SetPosition(shipIterator->GetCenterX(), shipIterator->GetCenterY());
+	}
+
+	if (App::GetController().CheckButton(XINPUT_GAMEPAD_DPAD_LEFT)) {
+		if (shipIterator == shipSlots.begin()) {
+			shipIterator = shipSlots.end();
+		}
+		shipIterator--;
+		shipSprite->SetPosition(shipIterator->GetCenterX(), shipIterator->GetCenterY());
+	}
+
+	if (App::GetController().CheckButton(XINPUT_GAMEPAD_DPAD_RIGHT)) {
+		shipIterator++;
+		if (shipIterator == shipSlots.end()) {
+			shipIterator = shipSlots.begin();
+		}
+		shipSprite->SetPosition(shipIterator->GetCenterX(), shipIterator->GetCenterY());
+	}
+
+
+
+	if (App::GetController().GetLeftThumbStickX() > 0.5f) {
 		testSprite->SetAnimation(ANIM_RIGHT);
 		float x, y;
 		testSprite->GetPosition(x, y);
 		x += 1.0f;
 		testSprite->SetPosition(x, y);
 	}
-	if (App::GetController().GetLeftThumbStickX() < -0.5f)
-	{
+
+	if (App::GetController().GetLeftThumbStickX() < -0.5f) {
 		testSprite->SetAnimation(ANIM_LEFT);
 		float x, y;
 		testSprite->GetPosition(x, y);
 		x -= 1.0f;
 		testSprite->SetPosition(x, y);
 	}
-	if (App::GetController().GetLeftThumbStickY() < -0.5f)
-	{
+
+	if (App::GetController().GetLeftThumbStickY() < -0.5f) {
 		testSprite->SetAnimation(ANIM_FORWARDS);
 		float x, y;
 		testSprite->GetPosition(x, y);
 		y += 1.0f;
 		testSprite->SetPosition(x, y);
 	}
-	if (App::GetController().GetLeftThumbStickY() > 0.5f)
-	{
+
+	if (App::GetController().GetLeftThumbStickY() > 0.5f) {
 		testSprite->SetAnimation(ANIM_BACKWARDS);
 		float x, y;
 		testSprite->GetPosition(x, y);
 		y -= 1.0f;
 		testSprite->SetPosition(x, y);
 	}
+
 	if (App::GetController().CheckButton(XINPUT_GAMEPAD_DPAD_UP, false))
 	{
 		testSprite->SetScale(testSprite->GetScale() + 0.1f);
@@ -176,29 +219,21 @@ void Render()
 	//	App::DrawLine(sx, sy, ex, ey, r, g, b);
 	//}
 
-	// Square corners
-	float sx{ 200.0f };
-	float sy{ 200.0f };
-	float size{ 500.0f };
-	int corners{ 4 };
-	float scale{ 0.25f };
-	float offset{ 3 * size / 8 };
-	
-	// Draw the slots of the outer shape
-	auto shipCoordinates{ PolygonUtil::PolygonCoordinates(sx, sy, size, corners) };
-	PolygonUtil::PopulateShipVector(shipSlots, shipCoordinates, size, corners);
+	// Draw shape
+	for (auto ship : shipSlots) {
+		ship.DrawSlot();
+	}
+	for (auto enemy : enemySlots) {
+		enemy.DrawSlot();
+	}
 
-	// Draw the slots of the inner shape
-	auto enemyCoordinates{ PolygonUtil::PolygonCoordinates(sx + offset, sy + offset, size*scale, corners) };
-	PolygonUtil::PopulateShipVector(enemySlots, enemyCoordinates, size, corners);
-	
 	PolygonUtil::ConnectPolygons(shipCoordinates, enemyCoordinates);
 
 	//------------------------------------------------------------------------
 	// Example Sprite Code....
 	/*testSprite->Draw();
 	testSprite2->Draw();*/
-	shipSprite->SetPosition(shipSlots.at(0).GetCenterX(), shipSlots.at(0).GetCenterY());
+	//shipSprite->SetPosition(shipIterator->GetCenterX(), shipIterator->GetCenterY());
 	shipSprite->Draw();
 	//------------------------------------------------------------------------
 

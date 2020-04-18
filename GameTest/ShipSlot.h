@@ -19,6 +19,8 @@ public:
 
 	float GetCenterX() { return xCoordCenter; }
 	float GetCenterY() { return yCoordCenter; }
+
+	void DrawSlot() { App::DrawLine(xCoordLeft, yCoordLeft, xCoordRight, yCoordRight, 1, 1, 1); }
 };
 
 #endif // !_SHIP_SLOT_H_

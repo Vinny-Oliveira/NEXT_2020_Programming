@@ -57,4 +57,9 @@ namespace PolygonUtil {
 			shipVec.push_back({ coordinates.at(i).first, coordinates.at(i).second, coordinates.at(i + 1).first, coordinates.at(i + 1).second, size / corners });
 		}
 	}
+
+	void PopulateShipVector(std::vector<ShipSlot>& shipVec, const std::vector<std::pair<float, float>>& coordinates, float size, int corners, std::vector<ShipSlot>::iterator& it) {
+		PopulateShipVector(shipVec, coordinates, size, corners);
+		it = shipVec.begin();
+	}
 }
