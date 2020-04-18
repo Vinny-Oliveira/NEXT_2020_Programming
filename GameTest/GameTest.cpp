@@ -9,7 +9,9 @@
 #include "app\app.h"
 //------------------------------------------------------------------------
 
-#include "DrawPolygons.h"
+#include <vector>
+#include "PolygonUtil.h"
+#include "ShipSlot.h"
 
 //------------------------------------------------------------------------
 // Eample data....
@@ -17,6 +19,8 @@
 CSimpleSprite* testSprite;
 CSimpleSprite* testSprite2;
 CSimpleSprite* shipSprite;
+std::vector<ShipSlot> shipSlots;
+std::vector<ShipSlot> enemySlots;
 enum
 {
 	ANIM_FORWARDS,
@@ -56,9 +60,16 @@ void Init()
 	int corners = 4;
 
 	shipSprite = App::CreateSprite(".\\TestData\\Ships.bmp", 2, 12);
-	shipSprite->SetPosition(sx + size / (2 * corners), sy);
+	shipSprite->SetPosition(sx, sy);
 	shipSprite->SetFrame(0);	
 	shipSprite->SetScale(0.8f);
+
+	//for (auto i{ 1 }; i < coordinates.size(); i++) {
+	//	shipSlots.push_back({ coordinates.at(i-1).first, coordinates.at(i-1).second, coordinates.at(i).first, coordinates.at(i).second, size / corners });
+	//}
+
+	//ShipSlot ship{ sx, sy, sx + size, sy + size, size };
+
 	//------------------------------------------------------------------------
 }
 
@@ -166,18 +177,28 @@ void Render()
 	//}
 
 	// Square corners
-	float sx = 200.0f;
-	float sy = 200.0f;
-	float size = 500.0f;
-	int corners = 4;
-	float scale = 0.25f;
+	float sx{ 200.0f };
+	float sy{ 200.0f };
+	float size{ 500.0f };
+	int corners{ 4 };
+	float scale{ 0.25f };
+	float offset{ 3 * size / 8 };
+	
+	// Draw the slots of the outer shape
+	auto shipCoordinates{ PolygonUtil::PolygonCoordinates(sx, sy, size, corners) };
+	PolygonUtil::PopulateShipVector(shipSlots, shipCoordinates, size, corners);
 
-	DrawPolygons::DrawSquareLevel(sx, sy, size, scale);
+	// Draw the slots of the inner shape
+	auto enemyCoordinates{ PolygonUtil::PolygonCoordinates(sx + offset, sy + offset, size*scale, corners) };
+	PolygonUtil::PopulateShipVector(enemySlots, enemyCoordinates, size, corners);
+	
+	PolygonUtil::ConnectPolygons(shipCoordinates, enemyCoordinates);
 
 	//------------------------------------------------------------------------
 	// Example Sprite Code....
 	/*testSprite->Draw();
 	testSprite2->Draw();*/
+	shipSprite->SetPosition(shipSlots.at(0).GetCenterX(), shipSlots.at(0).GetCenterY());
 	shipSprite->Draw();
 	//------------------------------------------------------------------------
 

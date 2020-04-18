@@ -1,17 +1,17 @@
-#ifndef _DRAW_SHAPES_H_
-#define _DRAW_POLYGONS_H_
+#ifndef _POLYGON_UTIL_H_
+#define _POLYGON_UTIL_H_
 
 #include <math.h>
 #include <vector>
 #include "App/app.h"
 #include "ShipSlot.h"
 
-namespace DrawPolygons {
+namespace PolygonUtil {
 
 	//-------------------------------------------------------------------------------------------
 	// Draw a polygon with a vertex on (sx, sy), side length size, a number of corners, base angle in degrees, and colors r,g,b
 	//-------------------------------------------------------------------------------------------
-	std::vector<std::pair<float, float>> DrawPolygon(float sx, float sy, float size, int corners, float angle = 0.0f, float r = 1.0f, float g = 1.0f, float b = 1.0f);
+	std::vector<std::pair<float, float>> PolygonCoordinates(float sx, float sy, float size, int corners, float angle = 0.0f);
 	
 	//-------------------------------------------------------------------------------------------
 	// When drawing the side of a 2D shape of side length size, find the x coordinate of the next vertex
@@ -24,9 +24,14 @@ namespace DrawPolygons {
 	float FindNextVertexY(float ycoord, float size, float angle = 0.0f);
 
 	//-------------------------------------------------------------------------------------------
-	// Draw a level with an outer square and an inner square
+	// Draw connecting lines between inner and outer polygons
 	//-------------------------------------------------------------------------------------------
-	void DrawSquareLevel(float sx, float sy, float size, float scale, float angle = 0.0f, float r = 1.0f, float g = 1.0f, float b = 1.0f);
+	void ConnectPolygons(std::vector<std::pair<float, float>> outerShape, std::vector<std::pair<float, float>> innerShape);
+
+	//-------------------------------------------------------------------------------------------
+	// Populate a vector of ship slots with the proper coordinates
+	//-------------------------------------------------------------------------------------------
+	void PopulateShipVector(std::vector<ShipSlot>& shipVec, const std::vector<std::pair<float, float>>& coordinates, float size, int corners);
 }
 
-#endif // !_DRAW_POLYGONS_H_
+#endif // !_POLYGON_UTIL_H_

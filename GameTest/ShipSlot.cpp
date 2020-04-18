@@ -13,6 +13,10 @@ ShipSlot::ShipSlot(float xStart, float yStart, float xEnd, float yEnd, float siz
 	  yCoordRight{ yEnd },
 	  xCoordCenter{ (xCoordLeft + xCoordRight) / 2 },
 	  yCoordCenter{ (yCoordLeft + yCoordRight) / 2 } {
-	App::DrawLine(xCoordLeft, yCoordLeft, xCoordRight, yCoordRight);
+	App::DrawLine(xCoordLeft, yCoordLeft, xCoordRight, yCoordRight, 1, 1, 1);
 }
-
+//
+//ShipSlot::ShipSlot(ShipSlot&& source) 
+//	: {
+//
+//}
