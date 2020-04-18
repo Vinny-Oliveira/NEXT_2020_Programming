@@ -10,8 +10,10 @@
 //------------------------------------------------------------------------
 
 #include <vector>
+#include <algorithm>
 #include "PolygonUtil.h"
 #include "ShipSlot.h"
+#include "ShipPositioning.h"
 
 //------------------------------------------------------------------------
 // Eample data....
@@ -25,6 +27,7 @@ std::vector<ShipSlot> enemySlots{};
 std::vector<std::pair<float, float>> shipCoordinates{};
 std::vector<std::pair<float, float>> enemyCoordinates{};
 std::vector<ShipSlot>::iterator shipIterator{ shipSlots.begin() };
+int shipPosition{};
 
 enum
 {
@@ -94,35 +97,19 @@ void Update(float deltaTime)
 	shipSprite->Update(deltaTime);
 
 	if (App::GetController().CheckButton(XINPUT_GAMEPAD_DPAD_UP)) {
-		shipIterator++;
-		if (shipIterator == shipSlots.end()) {
-			shipIterator = shipSlots.begin();
-		}
-		shipSprite->SetPosition(shipIterator->GetCenterX(), shipIterator->GetCenterY());
+		MoveUp(shipIterator, shipSlots, shipSprite);
 	}
 
 	if (App::GetController().CheckButton(XINPUT_GAMEPAD_DPAD_DOWN)) {
-		if (shipIterator == shipSlots.begin()) {
-			shipIterator = shipSlots.end();
-		}
-		shipIterator--;
-		shipSprite->SetPosition(shipIterator->GetCenterX(), shipIterator->GetCenterY());
+		MoveDown(shipIterator, shipSlots, shipSprite);
 	}
 
 	if (App::GetController().CheckButton(XINPUT_GAMEPAD_DPAD_LEFT)) {
-		if (shipIterator == shipSlots.begin()) {
-			shipIterator = shipSlots.end();
-		}
-		shipIterator--;
-		shipSprite->SetPosition(shipIterator->GetCenterX(), shipIterator->GetCenterY());
+		MoveLeft(shipIterator, shipSlots, shipSprite);
 	}
 
 	if (App::GetController().CheckButton(XINPUT_GAMEPAD_DPAD_RIGHT)) {
-		shipIterator++;
-		if (shipIterator == shipSlots.end()) {
-			shipIterator = shipSlots.begin();
-		}
-		shipSprite->SetPosition(shipIterator->GetCenterX(), shipIterator->GetCenterY());
+		MoveRight(shipIterator, shipSlots, shipSprite);
 	}
 
 
@@ -220,10 +207,10 @@ void Render()
 	//}
 
 	// Draw shape
-	for (auto ship : shipSlots) {
+	for (auto& ship : shipSlots) {
 		ship.DrawSlot();
 	}
-	for (auto enemy : enemySlots) {
+	for (auto& enemy : enemySlots) {
 		enemy.DrawSlot();
 	}
 

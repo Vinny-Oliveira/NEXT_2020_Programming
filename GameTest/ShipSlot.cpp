@@ -15,8 +15,3 @@ ShipSlot::ShipSlot(float xStart, float yStart, float xEnd, float yEnd, float siz
 	  yCoordCenter{ (yCoordLeft + yCoordRight) / 2 } {
 	
 }
-//
-//ShipSlot::ShipSlot(ShipSlot&& source) 
-//	: {
-//
-//}

@@ -13,6 +13,7 @@ private:
 public:
 	ShipSlot();
 	ShipSlot(float xStart, float yStart, float xEnd, float yEnd, float size, float angle = 0.0f);
+	//ShipSlot(float xStart, float yStart, float xEnd, float yEnd, float size, float angle = 0.0f);
 	//ShipSlot(const ShipSlot& source); // Copy constructor
 	//ShipSlot(ShipSlot&& source);
 	~ShipSlot() = default;
