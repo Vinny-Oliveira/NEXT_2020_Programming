@@ -21,6 +21,7 @@
 CSimpleSprite* testSprite;
 CSimpleSprite* testSprite2;
 CSimpleSprite* shipSprite;
+CSimpleSprite* bulletSprite;
 
 std::vector<ShipSlot> shipSlots{};
 std::vector<ShipSlot> enemySlots{};
@@ -61,6 +62,7 @@ void Init()
 	//testSprite2->SetFrame(2);
 	//testSprite2->SetScale(1.0f);
 
+	/* Level specs */
 	float sx{ 200.0f };
 	float sy{ 200.0f };
 	float size{ 500.0f };
@@ -68,23 +70,27 @@ void Init()
 	float scale{ 0.25f };
 	float offset{ 3 * size / 8 };
 
-	//float xCenter{ sx + size / 2 };
-	//float yCenter{ sy + size / 2 };
 
+	// Slots of the outer shape
+	shipCoordinates = PolygonUtil::PolygonCoordinates(sx, sy, size, corners);
+	PolygonUtil::PopulateShipVector(shipSlots, shipCoordinates, size, corners, shipIterator);
+
+	// Slots of the inner shape
+	enemyCoordinates = PolygonUtil::PolygonCoordinates(sx + offset, sy + offset, size * scale, corners);
+	PolygonUtil::PopulateShipVector(enemySlots, enemyCoordinates, size, corners);
+	
+	/* Ship sprite */
 	shipSprite = App::CreateSprite(".\\TestData\\Ships.bmp", 2, 12);
 	shipSprite->SetPosition(sx + size/(2*corners), sy);
 	shipSprite->SetFrame(0);	
 	shipSprite->SetScale(0.8f);
+	SetSpriteAngle(shipSlots, enemySlots, shipIterator, shipSprite);
 
-	// Draw the slots of the outer shape
-	shipCoordinates = PolygonUtil::PolygonCoordinates(sx, sy, size, corners);
-	PolygonUtil::PopulateShipVector(shipSlots, shipCoordinates, size, corners, shipIterator);
-
-	// Draw the slots of the inner shape
-	enemyCoordinates = PolygonUtil::PolygonCoordinates(sx + offset, sy + offset, size * scale, corners);
-	PolygonUtil::PopulateShipVector(enemySlots, enemyCoordinates, size, corners);
-
-	SetShipAngle(shipSlots, enemySlots, shipIterator, shipSprite);
+	/* Ship' bullet sprite */
+	bulletSprite = App::CreateSprite(".\\TestData\\Ships.bmp", 2, 12);
+	SpritePositionMatch(bulletSprite, shipSprite);
+	bulletSprite->SetFrame(1);
+	bulletSprite->SetScale(0.8f);
 
 	//------------------------------------------------------------------------
 }
@@ -103,22 +109,26 @@ void Update(float deltaTime)
 
 	if (App::GetController().CheckButton(XINPUT_GAMEPAD_DPAD_UP)) {
 		MoveUp(shipIterator, shipSlots, shipSprite);
-		SetShipAngle(shipSlots, enemySlots, shipIterator, shipSprite);
+		SetSpriteAngle(shipSlots, enemySlots, shipIterator, shipSprite);
+		SpritePositionMatch(bulletSprite, shipSprite);
 	}
 
 	if (App::GetController().CheckButton(XINPUT_GAMEPAD_DPAD_DOWN)) {
 		MoveDown(shipIterator, shipSlots, shipSprite);
-		SetShipAngle(shipSlots, enemySlots, shipIterator, shipSprite);
+		SetSpriteAngle(shipSlots, enemySlots, shipIterator, shipSprite);
+		SpritePositionMatch(bulletSprite, shipSprite);
 	}
 
 	if (App::GetController().CheckButton(XINPUT_GAMEPAD_DPAD_LEFT)) {
 		MoveLeft(shipIterator, shipSlots, shipSprite);
-		SetShipAngle(shipSlots, enemySlots, shipIterator, shipSprite);
+		SetSpriteAngle(shipSlots, enemySlots, shipIterator, shipSprite);
+		SpritePositionMatch(bulletSprite, shipSprite);
 	}
 
 	if (App::GetController().CheckButton(XINPUT_GAMEPAD_DPAD_RIGHT)) {
 		MoveRight(shipIterator, shipSlots, shipSprite);
-		SetShipAngle(shipSlots, enemySlots, shipIterator, shipSprite);
+		SetSpriteAngle(shipSlots, enemySlots, shipIterator, shipSprite);
+		SpritePositionMatch(bulletSprite, shipSprite);
 	}
 
 
@@ -231,6 +241,7 @@ void Render()
 	testSprite2->Draw();*/
 	//shipSprite->SetPosition(shipIterator->GetCenterX(), shipIterator->GetCenterY());
 	shipSprite->Draw();
+	bulletSprite->Draw();
 	//------------------------------------------------------------------------
 
 	//------------------------------------------------------------------------

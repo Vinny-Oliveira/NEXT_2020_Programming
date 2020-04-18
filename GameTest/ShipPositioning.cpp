@@ -49,21 +49,26 @@ void CheckNextSlot(std::vector<ShipSlot>::iterator& it_around, std::vector<ShipS
 
 bool CanMove(std::vector<ShipSlot>::iterator& it, std::vector<ShipSlot>::iterator& it_around, CSimpleSprite* shipSprite, bool canMove) {
 	if (canMove) {
-		SetShipPosition(it, it_around, shipSprite);
+		SetSpritePosition(it, it_around, shipSprite);
 		return true;
 	}
 
 	return false;
 }
 
-void SetShipPosition(std::vector<ShipSlot>::iterator& it, std::vector<ShipSlot>::iterator& it_around, CSimpleSprite* shipSprite) {
+void SetSpritePosition(std::vector<ShipSlot>::iterator& it, std::vector<ShipSlot>::iterator& it_around, CSimpleSprite* shipSprite) {
 	it = it_around;
 	shipSprite->SetPosition(it->GetCenterX(), it->GetCenterY());
 }
 
-void SetShipAngle(const std::vector<ShipSlot>& vecShips, std::vector<ShipSlot>& vecTargets, std::vector<ShipSlot>::iterator& it, CSimpleSprite* shipSprite) {
+void SetSpriteAngle(const std::vector<ShipSlot>& vecShips, std::vector<ShipSlot>& vecTargets, std::vector<ShipSlot>::iterator& it, CSimpleSprite* shipSprite) {
 	int enemyIndex = it - vecShips.begin();
 	float dy = vecTargets.at(enemyIndex).GetCenterY() - it->GetCenterY();
 	float dx = vecTargets.at(enemyIndex).GetCenterX() - it->GetCenterX();
 	shipSprite->SetAngle(atan2f(dy, dx) - PI/2);
+}
+
+void SpritePositionMatch(CSimpleSprite* spriteToMove, CSimpleSprite* spriteToMatch) {
+	spriteToMove->SetPosition(spriteToMatch->GetPositionX(), spriteToMatch->GetPositionY());
+	spriteToMove->SetAngle(spriteToMatch->GetAngle());
 }

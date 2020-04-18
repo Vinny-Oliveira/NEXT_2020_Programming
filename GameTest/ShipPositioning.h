@@ -42,10 +42,12 @@ void CheckNextSlot(std::vector<ShipSlot>::iterator& it_around, std::vector<ShipS
 // Check if the ship can move to a determined slot
 bool CanMove(std::vector<ShipSlot>::iterator& it, std::vector<ShipSlot>::iterator& it_around, CSimpleSprite* shipSprite, bool canMove);
 
-// Set the position of the ship to a new slot
-void SetShipPosition(std::vector<ShipSlot>::iterator& it, std::vector<ShipSlot>::iterator& it_around, CSimpleSprite* shipSprite);
+// Set the position of the sprite to a new slot
+void SetSpritePosition(std::vector<ShipSlot>::iterator& it, std::vector<ShipSlot>::iterator& it_around, CSimpleSprite* sprite);
 
-// Set the angle of the ship so it points to the proper target
-void SetShipAngle(const std::vector<ShipSlot>& vecShips, std::vector<ShipSlot>& vecTargets, std::vector<ShipSlot>::iterator& it, CSimpleSprite* shipSprite);
+// Set the angle of the sprite so it points to the proper target
+void SetSpriteAngle(const std::vector<ShipSlot>& vecShips, std::vector<ShipSlot>& vecTargets, std::vector<ShipSlot>::iterator& it, CSimpleSprite* sprite);
+
+void SpritePositionMatch(CSimpleSprite* spriteToMove, CSimpleSprite* spriteToMatch);
 
 #endif // !_SHIP_POSITIONING_H_
