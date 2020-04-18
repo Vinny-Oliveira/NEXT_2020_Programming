@@ -68,6 +68,9 @@ void Init()
 	float scale{ 0.25f };
 	float offset{ 3 * size / 8 };
 
+	//float xCenter{ sx + size / 2 };
+	//float yCenter{ sy + size / 2 };
+
 	shipSprite = App::CreateSprite(".\\TestData\\Ships.bmp", 2, 12);
 	shipSprite->SetPosition(sx + size/(2*corners), sy);
 	shipSprite->SetFrame(0);	
@@ -80,6 +83,8 @@ void Init()
 	// Draw the slots of the inner shape
 	enemyCoordinates = PolygonUtil::PolygonCoordinates(sx + offset, sy + offset, size * scale, corners);
 	PolygonUtil::PopulateShipVector(enemySlots, enemyCoordinates, size, corners);
+
+	SetShipAngle(shipSlots, enemySlots, shipIterator, shipSprite);
 
 	//------------------------------------------------------------------------
 }
@@ -98,18 +103,22 @@ void Update(float deltaTime)
 
 	if (App::GetController().CheckButton(XINPUT_GAMEPAD_DPAD_UP)) {
 		MoveUp(shipIterator, shipSlots, shipSprite);
+		SetShipAngle(shipSlots, enemySlots, shipIterator, shipSprite);
 	}
 
 	if (App::GetController().CheckButton(XINPUT_GAMEPAD_DPAD_DOWN)) {
 		MoveDown(shipIterator, shipSlots, shipSprite);
+		SetShipAngle(shipSlots, enemySlots, shipIterator, shipSprite);
 	}
 
 	if (App::GetController().CheckButton(XINPUT_GAMEPAD_DPAD_LEFT)) {
 		MoveLeft(shipIterator, shipSlots, shipSprite);
+		SetShipAngle(shipSlots, enemySlots, shipIterator, shipSprite);
 	}
 
 	if (App::GetController().CheckButton(XINPUT_GAMEPAD_DPAD_RIGHT)) {
 		MoveRight(shipIterator, shipSlots, shipSprite);
+		SetShipAngle(shipSlots, enemySlots, shipIterator, shipSprite);
 	}
 
 
@@ -227,7 +236,7 @@ void Render()
 	//------------------------------------------------------------------------
 	// Example Text.
 	//------------------------------------------------------------------------
-	App::Print(100, 100, "Sample Text");
+	App::Print(100, 100, "Reimagined Tempest");
 
 }
 //------------------------------------------------------------------------

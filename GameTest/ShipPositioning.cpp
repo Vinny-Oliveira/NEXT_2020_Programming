@@ -60,3 +60,10 @@ void SetShipPosition(std::vector<ShipSlot>::iterator& it, std::vector<ShipSlot>:
 	it = it_around;
 	shipSprite->SetPosition(it->GetCenterX(), it->GetCenterY());
 }
+
+void SetShipAngle(const std::vector<ShipSlot>& vecShips, std::vector<ShipSlot>& vecTargets, std::vector<ShipSlot>::iterator& it, CSimpleSprite* shipSprite) {
+	int enemyIndex = it - vecShips.begin();
+	float dy = vecTargets.at(enemyIndex).GetCenterY() - it->GetCenterY();
+	float dx = vecTargets.at(enemyIndex).GetCenterX() - it->GetCenterX();
+	shipSprite->SetAngle(atan2f(dy, dx) - PI/2);
+}

@@ -45,4 +45,7 @@ bool CanMove(std::vector<ShipSlot>::iterator& it, std::vector<ShipSlot>::iterato
 // Set the position of the ship to a new slot
 void SetShipPosition(std::vector<ShipSlot>::iterator& it, std::vector<ShipSlot>::iterator& it_around, CSimpleSprite* shipSprite);
 
+// Set the angle of the ship so it points to the proper target
+void SetShipAngle(const std::vector<ShipSlot>& vecShips, std::vector<ShipSlot>& vecTargets, std::vector<ShipSlot>::iterator& it, CSimpleSprite* shipSprite);
+
 #endif // !_SHIP_POSITIONING_H_
