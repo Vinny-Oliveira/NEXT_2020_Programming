@@ -1,24 +1,24 @@
 #include "stdafx.h"
 #include "ShipPositioning.h"
 
-void MoveUp(std::vector<ShipSlot>::iterator& it, std::vector<ShipSlot>& shipSlots, CSimpleSprite* shipSprite) {
+void MoveUp(std::vector<LineSlot>::iterator& it, std::vector<LineSlot>& shipSlots, CSimpleSprite* shipSprite) {
 	MoveShip(it, shipSlots, shipSprite, lambdaUp);
 }
 
-void MoveDown(std::vector<ShipSlot>::iterator& it, std::vector<ShipSlot>& shipSlots, CSimpleSprite* shipSprite) {
+void MoveDown(std::vector<LineSlot>::iterator& it, std::vector<LineSlot>& shipSlots, CSimpleSprite* shipSprite) {
 	MoveShip(it, shipSlots, shipSprite, lambdaDown);
 }
 
-void MoveLeft(std::vector<ShipSlot>::iterator& it, std::vector<ShipSlot>& shipSlots, CSimpleSprite* shipSprite) {
+void MoveLeft(std::vector<LineSlot>::iterator& it, std::vector<LineSlot>& shipSlots, CSimpleSprite* shipSprite) {
 	MoveShip(it, shipSlots, shipSprite, lambdaLeft);
 }
 
-void MoveRight(std::vector<ShipSlot>::iterator& it, std::vector<ShipSlot>& shipSlots, CSimpleSprite* shipSprite) {
+void MoveRight(std::vector<LineSlot>::iterator& it, std::vector<LineSlot>& shipSlots, CSimpleSprite* shipSprite) {
 	MoveShip(it, shipSlots, shipSprite, lambdaRight);
 }
 
 template<typename F>
-void MoveShip(std::vector<ShipSlot>::iterator& it, std::vector<ShipSlot>& shipSlots, CSimpleSprite* shipSprite, F lambdaMove) {
+void MoveShip(std::vector<LineSlot>::iterator& it, std::vector<LineSlot>& shipSlots, CSimpleSprite* shipSprite, F lambdaMove) {
 	auto it_around{ it };
 
 	// First, check the previous slot
@@ -33,21 +33,21 @@ void MoveShip(std::vector<ShipSlot>::iterator& it, std::vector<ShipSlot>& shipSl
 	CanMove(it, it_around, shipSprite, lambdaMove(it, it_around));
 }
 
-void CheckPreviousSlot(std::vector<ShipSlot>::iterator& it_around, std::vector<ShipSlot>& shipSlots) {
+void CheckPreviousSlot(std::vector<LineSlot>::iterator& it_around, std::vector<LineSlot>& shipSlots) {
 	if (it_around == shipSlots.begin()) {
 		it_around = shipSlots.end();
 	}
 	it_around--;
 }
 
-void CheckNextSlot(std::vector<ShipSlot>::iterator& it_around, std::vector<ShipSlot>& shipSlots) {
+void CheckNextSlot(std::vector<LineSlot>::iterator& it_around, std::vector<LineSlot>& shipSlots) {
 	it_around++;
 	if (it_around == shipSlots.end()) {
 		it_around = shipSlots.begin();
 	}
 }
 
-bool CanMove(std::vector<ShipSlot>::iterator& it, std::vector<ShipSlot>::iterator& it_around, CSimpleSprite* shipSprite, bool canMove) {
+bool CanMove(std::vector<LineSlot>::iterator& it, std::vector<LineSlot>::iterator& it_around, CSimpleSprite* shipSprite, bool canMove) {
 	if (canMove) {
 		SetSpritePosition(it, it_around, shipSprite);
 		return true;
@@ -56,12 +56,12 @@ bool CanMove(std::vector<ShipSlot>::iterator& it, std::vector<ShipSlot>::iterato
 	return false;
 }
 
-void SetSpritePosition(std::vector<ShipSlot>::iterator& it, std::vector<ShipSlot>::iterator& it_around, CSimpleSprite* shipSprite) {
+void SetSpritePosition(std::vector<LineSlot>::iterator& it, std::vector<LineSlot>::iterator& it_around, CSimpleSprite* shipSprite) {
 	it = it_around;
 	shipSprite->SetPosition(it->GetCenterX(), it->GetCenterY());
 }
 
-void SetSpriteAngle(const std::vector<ShipSlot>& vecShips, std::vector<ShipSlot>& vecTargets, std::vector<ShipSlot>::iterator& it, CSimpleSprite* shipSprite) {
+void SetSpriteAngle(const std::vector<LineSlot>& vecShips, std::vector<LineSlot>& vecTargets, std::vector<LineSlot>::iterator& it, CSimpleSprite* shipSprite) {
 	int enemyIndex = it - vecShips.begin();
 	float dy = vecTargets.at(enemyIndex).GetCenterY() - it->GetCenterY();
 	float dx = vecTargets.at(enemyIndex).GetCenterX() - it->GetCenterX();

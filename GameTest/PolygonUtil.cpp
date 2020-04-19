@@ -52,13 +52,13 @@ namespace PolygonUtil {
 		}
 	}
 
-	void PopulateShipVector(std::vector<ShipSlot>& shipVec, const std::vector<std::pair<float, float>>& coordinates, float size, int corners) {
+	void PopulateShipVector(std::vector<LineSlot>& shipVec, const std::vector<std::pair<float, float>>& coordinates, float size, int corners) {
 		for (auto i{ 0 }; i < coordinates.size() - 1; i++) {
 			shipVec.push_back({ coordinates.at(i).first, coordinates.at(i).second, coordinates.at(i + 1).first, coordinates.at(i + 1).second, size / corners });
 		}
 	}
 
-	void PopulateShipVector(std::vector<ShipSlot>& shipVec, const std::vector<std::pair<float, float>>& coordinates, float size, int corners, std::vector<ShipSlot>::iterator& it) {
+	void PopulateShipVector(std::vector<LineSlot>& shipVec, const std::vector<std::pair<float, float>>& coordinates, float size, int corners, std::vector<LineSlot>::iterator& it) {
 		PopulateShipVector(shipVec, coordinates, size, corners);
 		it = shipVec.begin();
 	}

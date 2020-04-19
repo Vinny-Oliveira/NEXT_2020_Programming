@@ -26,7 +26,7 @@ Bullet::~Bullet() {
 }
 
 // Launch a bullet from the ship and set its target
-void Bullet::LaunchBullet(const std::vector<ShipSlot>::iterator& ship_it, std::vector<ShipSlot>& targets, int index) {
+void Bullet::LaunchBullet(const std::vector<LineSlot>::iterator& ship_it, std::vector<LineSlot>& targets, int index) {
 	launched = true;
 	xPos = ship_it->GetCenterX();
 	yPos = ship_it->GetCenterY();

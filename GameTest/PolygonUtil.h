@@ -4,7 +4,7 @@
 #include <math.h>
 #include <vector>
 #include "App/app.h"
-#include "ShipSlot.h"
+#include "LineSlot.h"
 
 namespace PolygonUtil {
 
@@ -31,8 +31,8 @@ namespace PolygonUtil {
 	//-------------------------------------------------------------------------------------------
 	// Populate a vector of ship slots with the proper coordinates
 	//-------------------------------------------------------------------------------------------
-	void PopulateShipVector(std::vector<ShipSlot>& shipVec, const std::vector<std::pair<float, float>>& coordinates, float size, int corners);
-	void PopulateShipVector(std::vector<ShipSlot>& shipVec, const std::vector<std::pair<float, float>>& coordinates, float size, int corners, std::vector<ShipSlot>::iterator& it);
+	void PopulateShipVector(std::vector<LineSlot>& shipVec, const std::vector<std::pair<float, float>>& coordinates, float size, int corners);
+	void PopulateShipVector(std::vector<LineSlot>& shipVec, const std::vector<std::pair<float, float>>& coordinates, float size, int corners, std::vector<LineSlot>::iterator& it);
 }
 
 #endif // !_POLYGON_UTIL_H_

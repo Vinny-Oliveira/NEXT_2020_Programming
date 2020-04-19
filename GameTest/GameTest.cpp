@@ -12,6 +12,7 @@
 #include <vector>
 #include <algorithm>
 #include "PolygonUtil.h"
+#include "LineSlot.h"
 #include "ShipSlot.h"
 #include "ShipPositioning.h"
 #include "Bullet.h"
@@ -24,11 +25,11 @@ CSimpleSprite* testSprite2;
 CSimpleSprite* shipSprite;
 CSimpleSprite* bulletSprite;
 
-std::vector<ShipSlot> shipSlots{};
-std::vector<ShipSlot> enemySlots{};
+std::vector<LineSlot> shipSlots{};
+std::vector<LineSlot> enemySlots{};
 std::vector<std::pair<float, float>> shipCoordinates{};
 std::vector<std::pair<float, float>> enemyCoordinates{};
-std::vector<ShipSlot>::iterator shipIterator{ shipSlots.begin() };
+std::vector<LineSlot>::iterator shipIterator{ shipSlots.begin() };
 Bullet bullet{};
 
 enum
