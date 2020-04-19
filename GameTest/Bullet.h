@@ -1,14 +1,17 @@
 #ifndef _BULLET_H_
 #define _BULLET_H_
 
+#include <memory>
 #include "App/app.h"
 #include "LineSlot.h"
-#include "ShipPositioning.h"
 
 class Bullet {
 private:
 	CSimpleSprite* bulletSprite{ nullptr };
-	LineSlot target;
+	LineSlot* target{ nullptr };
+
+	//std::shared_ptr<CSimpleSprite> bulletSprite{ nullptr };
+	//std::shared_ptr<LineSlot> target{ nullptr };
 
 	bool launched{};
 	bool collided{};
@@ -19,20 +22,22 @@ private:
 
 public:
 	Bullet();
-	Bullet(CSimpleSprite sprite);
+	Bullet(CSimpleSprite sprite, LineSlot lineSlot);
 	Bullet(const Bullet& source);
 	Bullet(Bullet&& source) noexcept;
 	~Bullet();
 
-	CSimpleSprite* GetSprite() { return bulletSprite; }
+	auto GetSprite() { return bulletSprite; }
 	void SetSprite(CSimpleSprite* sprite) { bulletSprite = sprite; }
-	//void SetSpeed(float newSpeed) { speed = newSpeed; }
-	//void SetTarget(float x, float y) { xTarget = x; yTarget = y; }
+	//void SetSprite(CSimpleSprite* sprite) { bulletSprite = std::make_shared<CSimpleSprite>(*sprite); }
 	
 	bool GetLaunched() { return launched; }
 	void SetLaunched(bool isLaunch) { launched = isLaunch; }
 
+	// Launch a bullet towards its target
 	void LaunchBullet(const std::vector<LineSlot>::iterator& ship_it, std::vector<LineSlot>& targets, int index);
+	
+	// Make the bullet travel to its target following a line
 	void GoToTarget();
 };
 

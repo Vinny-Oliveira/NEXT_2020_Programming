@@ -23,7 +23,10 @@ public:
 	float GetCenterX() { return xCoordCenter; }
 	float GetCenterY() { return yCoordCenter; }
 
-	void DrawSlot() { App::DrawLine(xCoordLeft, yCoordLeft, xCoordRight, yCoordRight, 1, 1, 1); }
+	void SetSlotDead() { isAlive = false; }
+
+	// Draw the line white if it is alive, red if it is not
+	void DrawSlot();
 };
 
 #endif // !_LINE_SLOT_H_

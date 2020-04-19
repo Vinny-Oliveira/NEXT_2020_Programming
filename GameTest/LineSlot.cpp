@@ -17,3 +17,13 @@ LineSlot::LineSlot(float xStart, float yStart, float xEnd, float yEnd, float siz
 	  isAlive{ true } {
 	
 }
+
+void LineSlot::DrawSlot() { 
+	float g{};
+	float b{};
+	if (isAlive) {
+		g = 1;
+		b = 1;
+	}
+	App::DrawLine(xCoordLeft, yCoordLeft, xCoordRight, yCoordRight, 1, g, b); 
+}

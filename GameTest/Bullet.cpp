@@ -2,27 +2,30 @@
 #include "Bullet.h"
 
 Bullet::Bullet()
-	: bulletSprite{ nullptr } {
+	: bulletSprite{ nullptr }, target{ nullptr } {
 }
 
-Bullet::Bullet(CSimpleSprite sprite) {
-	*bulletSprite = sprite;
+Bullet::Bullet(CSimpleSprite sprite, LineSlot lineSlot) {
+	bulletSprite = &sprite;
+	target = &lineSlot;
 }
 
 // Copy constructor
 Bullet::Bullet(const Bullet& source)
-	: Bullet{ *(source.bulletSprite) } {
+	: Bullet{ *(source.bulletSprite), *(source.target) } {
 
 }
 
 // Move constructor
 Bullet::Bullet(Bullet&& source) noexcept
-	: bulletSprite{ source.bulletSprite } {
+	: bulletSprite{ source.bulletSprite }, target{ source.target } {
 	source.bulletSprite = nullptr;
+	source.target = nullptr;
 }
 
 Bullet::~Bullet() {
 	delete bulletSprite;
+	//delete target;
 }
 
 // Launch a bullet from the ship and set its target
@@ -31,9 +34,9 @@ void Bullet::LaunchBullet(const std::vector<LineSlot>::iterator& ship_it, std::v
 	xPos = ship_it->GetCenterX();
 	yPos = ship_it->GetCenterY();
 
-	target = targets.at(index);
-	xTarget = target.GetCenterX();
-	yTarget = target.GetCenterY();
+	target = &(targets.at(index));
+	xTarget = target->GetCenterX();
+	yTarget = target->GetCenterY();
 
 	if (xPos == xTarget) {
 		slope = NAN;
@@ -42,7 +45,6 @@ void Bullet::LaunchBullet(const std::vector<LineSlot>::iterator& ship_it, std::v
 	}
 }
 
-// Make the bullet travel to its target following a line
 void Bullet::GoToTarget() {
 	if (xPos < xTarget) {
 		xPos++;
@@ -61,4 +63,9 @@ void Bullet::GoToTarget() {
 	}
 
 	bulletSprite->SetPosition(xPos, yPos);
+
+	if ((fabsf(xPos - xTarget) < 2) && (fabsf(yPos - yTarget) < 2)) {
+		target->SetSlotDead();
+		launched = false;
+	}
 }
