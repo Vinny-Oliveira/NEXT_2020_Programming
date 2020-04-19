@@ -10,8 +10,7 @@
 class Bullet {
 private:
 	CSimpleSprite* bulletSprite{ nullptr };
-	//CSimpleSprite* shipSprite{ nullptr };
-	std::shared_ptr<CSimpleSprite> shipSprite;
+	CSimpleSprite* shipSprite{ nullptr };
 	LineSlot* target{ nullptr };
 
 	//std::shared_ptr<CSimpleSprite> bulletSprite{ nullptr };
@@ -35,8 +34,8 @@ public:
 	void SetBullet(CSimpleSprite* sprite) { bulletSprite = sprite; }
 	
 	auto GetShip() { return shipSprite; }
-	void SetShip(std::shared_ptr<CSimpleSprite> sprite) { shipSprite = std::make_shared<CSimpleSprite>(*sprite); }
-	//void SetShip(CSimpleSprite* sprite) { std::make_shared<CSimpleSprite>(*sprite); }
+	void SetShip(CSimpleSprite* sprite) { shipSprite = sprite; }
+	//void SetSprite(CSimpleSprite* sprite) { bulletSprite = std::make_shared<CSimpleSprite>(*sprite); }
 	
 	bool GetLaunched() { return isLaunched; }
 	void SetLaunched(bool isLaunch) { isLaunched = isLaunch; }

@@ -1,9 +1,5 @@
 ﻿  GameTest.cpp
-D:\C++ Projects\NextAPI2020\GameTest\GameTest.cpp(156,64): warning C4244: 'argument': conversion from '__int64' to 'int', possible loss of data
-  ShipPositioning.cpp
-D:\C++ Projects\NextAPI2020\GameTest\ShipPositioning.cpp(70,17): warning C4244: 'initializing': conversion from '__int64' to 'int', possible loss of data
-D:\C++ Projects\NextAPI2020\GameTest\ShipPositioning.cpp(77,17): warning C4244: 'initializing': conversion from '__int64' to 'int', possible loss of data
-  Generating Code...
+D:\C++ Projects\NextAPI2020\GameTest\GameTest.cpp(147,62): warning C4244: 'argument': conversion from '__int64' to 'int', possible loss of data
   GameTest.vcxproj -> D:\C++ Projects\NextAPI2020\x64\Debug\GameTest.exe
   D:\C++ Projects\NextAPI2020\\GameTest\glut\bin\x64\freeglut.dll
   1 File(s) copied

@@ -12,7 +12,6 @@
 #include <vector>
 #include <algorithm>
 #include <string>
-#include <memory>
 #include "PolygonUtil.h"
 #include "LineSlot.h"
 #include "ShipPositioning.h"
@@ -23,7 +22,7 @@
 //------------------------------------------------------------------------
 CSimpleSprite* testSprite;
 CSimpleSprite* testSprite2;
-std::shared_ptr<CSimpleSprite> shipSprite{ nullptr };
+CSimpleSprite* shipSprite;
 //CSimpleSprite* bulletSprite;
 
 std::vector<LineSlot> shipSlots{};
@@ -33,8 +32,7 @@ std::vector<std::pair<float, float>> enemyCoordinates{};
 std::vector<LineSlot>::iterator shipIterator{ shipSlots.begin() };
 
 std::vector<Bullet> shipBullets;
-int maxBullets{ 5 };
-//Bullet bullet{};
+Bullet bullet{};
 int kill_count{};
 
 std::string winMessage = "You win!";
@@ -90,20 +88,15 @@ void Init()
 	PolygonUtil::PopulateShipVector(enemySlots, enemyCoordinates, size, corners);
 	
 	/* Ship sprite */
-	shipSprite = std::make_shared<CSimpleSprite>(*(App::CreateSprite(".\\TestData\\Ships.bmp", 2, 12)));
+	shipSprite = App::CreateSprite(".\\TestData\\Ships.bmp", 2, 12);
 	shipSprite->SetPosition(sx + size/(2*corners), sy);
 	shipSprite->SetFrame(0);	
 	shipSprite->SetScale(0.8f);
-	SetSpriteAngle(shipSlots, enemySlots, shipIterator, *shipSprite);
+	SetSpriteAngle(shipSlots, enemySlots, shipIterator, shipSprite);
 
-	/* Ship's bullets */
-	for (int i{ 0 }; i < maxBullets; i++) {
-		shipBullets.emplace_back();
-		shipBullets.back().CreateSprite();
-		shipBullets.back().SetShip(shipSprite);
-	}
-	//bullet.CreateSprite();
-	//bullet.SetShip(shipSprite);
+	/* Ship's bullet sprite */
+	bullet.CreateSprite();
+	bullet.SetShip(shipSprite);
 
 	//------------------------------------------------------------------------
 }
@@ -122,48 +115,41 @@ void Update(float deltaTime)
 
 	if (App::GetController().CheckButton(XINPUT_GAMEPAD_DPAD_UP)) {
 		MoveUp(shipIterator, shipSlots, shipSprite);
-		SetSpriteAngle(shipSlots, enemySlots, shipIterator, *shipSprite);
+		SetSpriteAngle(shipSlots, enemySlots, shipIterator, shipSprite);
 		//SpritePositionMatch(bullet, shipSprite);
 		//bullet.MatchShipPosition();
 	}
 
 	if (App::GetController().CheckButton(XINPUT_GAMEPAD_DPAD_DOWN)) {
 		MoveDown(shipIterator, shipSlots, shipSprite);
-		SetSpriteAngle(shipSlots, enemySlots, shipIterator, *shipSprite);
+		SetSpriteAngle(shipSlots, enemySlots, shipIterator, shipSprite);
 		//SpritePositionMatch(bullet, shipSprite);
 		//bullet.MatchShipPosition();
 	}
 
 	if (App::GetController().CheckButton(XINPUT_GAMEPAD_DPAD_LEFT)) {
 		MoveLeft(shipIterator, shipSlots, shipSprite);
-		SetSpriteAngle(shipSlots, enemySlots, shipIterator, *shipSprite);
+		SetSpriteAngle(shipSlots, enemySlots, shipIterator, shipSprite);
 		//SpritePositionMatch(bullet, shipSprite);
 		//bullet.MatchShipPosition();
 	}
 
 	if (App::GetController().CheckButton(XINPUT_GAMEPAD_DPAD_RIGHT)) {
 		MoveRight(shipIterator, shipSlots, shipSprite);
-		SetSpriteAngle(shipSlots, enemySlots, shipIterator, *shipSprite);
+		SetSpriteAngle(shipSlots, enemySlots, shipIterator, shipSprite);
 		//SpritePositionMatch(bullet, shipSprite);
 		//bullet.MatchShipPosition();
 	}
 
-	if (App::GetController().CheckButton(XINPUT_GAMEPAD_A, true) /*&& !bullet.GetLaunched()*/) {
+	if (App::GetController().CheckButton(XINPUT_GAMEPAD_A, true) && !bullet.GetLaunched()) {
 		//SpritePositionMatch(bullet, shipSprite);
 		//bullet.MatchShipPosition();
-		for (auto& bullet : shipBullets) {
-			if (!bullet.GetLaunched()) {
-				bullet.LaunchBullet(shipIterator, enemySlots, shipIterator - shipSlots.begin());
-				App::PlaySound(".\\TestData\\Test.wav");
-				break;
-			}
-		}
-		//bullet.LaunchBullet(shipIterator, enemySlots, shipIterator - shipSlots.begin());
-		//App::PlaySound(".\\TestData\\Test.wav");
+		bullet.LaunchBullet(shipIterator, enemySlots, shipIterator - shipSlots.begin());
+		App::PlaySound(".\\TestData\\Test.wav");
 	}
 
-	for (auto& bullet : shipBullets) {
-		if (bullet.GetLaunched() && bullet.GoToTarget(kill_count) && (kill_count == enemySlots.size())) {
+	if (bullet.GetLaunched() && bullet.GoToTarget(kill_count)) {
+		if (kill_count == enemySlots.size()) {
 			idleMessage = winMessage;
 		}
 	}
@@ -277,10 +263,8 @@ void Render()
 	testSprite2->Draw();*/
 	//shipSprite->SetPosition(shipIterator->GetCenterX(), shipIterator->GetCenterY());
 	shipSprite->Draw();
-	for (auto& bullet : shipBullets) {
-		if (bullet.GetLaunched()) {
-			bullet.GetBullet()->Draw();
-		}
+	if (bullet.GetLaunched()) {
+		bullet.GetBullet()->Draw();
 	}
 
 	//------------------------------------------------------------------------
@@ -301,6 +285,5 @@ void Shutdown()
 	// Example Sprite Code....
 	delete testSprite;
 	delete testSprite2;
-	//delete shipSprite;
 	//------------------------------------------------------------------------
 }

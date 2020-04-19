@@ -24,8 +24,8 @@ Bullet::Bullet(Bullet&& source) noexcept
 }
 
 Bullet::~Bullet() {
+	delete shipSprite;
 	delete bulletSprite;
-	//delete shipSprite;
 	//delete target;
 }
 

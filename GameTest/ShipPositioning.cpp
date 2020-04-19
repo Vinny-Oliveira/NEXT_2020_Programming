@@ -1,24 +1,24 @@
 #include "stdafx.h"
 #include "ShipPositioning.h"
 
-void MoveUp(std::vector<LineSlot>::iterator& it, std::vector<LineSlot>& shipSlots, std::shared_ptr<CSimpleSprite> shipSprite) {
+void MoveUp(std::vector<LineSlot>::iterator& it, std::vector<LineSlot>& shipSlots, CSimpleSprite* shipSprite) {
 	MoveShip(it, shipSlots, shipSprite, lambdaUp);
 }
 
-void MoveDown(std::vector<LineSlot>::iterator& it, std::vector<LineSlot>& shipSlots, std::shared_ptr<CSimpleSprite> shipSprite) {
+void MoveDown(std::vector<LineSlot>::iterator& it, std::vector<LineSlot>& shipSlots, CSimpleSprite* shipSprite) {
 	MoveShip(it, shipSlots, shipSprite, lambdaDown);
 }
 
-void MoveLeft(std::vector<LineSlot>::iterator& it, std::vector<LineSlot>& shipSlots, std::shared_ptr<CSimpleSprite> shipSprite) {
+void MoveLeft(std::vector<LineSlot>::iterator& it, std::vector<LineSlot>& shipSlots, CSimpleSprite* shipSprite) {
 	MoveShip(it, shipSlots, shipSprite, lambdaLeft);
 }
 
-void MoveRight(std::vector<LineSlot>::iterator& it, std::vector<LineSlot>& shipSlots, std::shared_ptr<CSimpleSprite> shipSprite) {
+void MoveRight(std::vector<LineSlot>::iterator& it, std::vector<LineSlot>& shipSlots, CSimpleSprite* shipSprite) {
 	MoveShip(it, shipSlots, shipSprite, lambdaRight);
 }
 
 template<typename F>
-void MoveShip(std::vector<LineSlot>::iterator& it, std::vector<LineSlot>& shipSlots, std::shared_ptr<CSimpleSprite> shipSprite, F lambdaMove) {
+void MoveShip(std::vector<LineSlot>::iterator& it, std::vector<LineSlot>& shipSlots, CSimpleSprite* shipSprite, F lambdaMove) {
 	auto it_around{ it };
 
 	// First, check the previous slot
@@ -47,7 +47,7 @@ void CheckNextSlot(std::vector<LineSlot>::iterator& it_around, std::vector<LineS
 	}
 }
 
-bool CanMove(std::vector<LineSlot>::iterator& it, std::vector<LineSlot>::iterator& it_around, std::shared_ptr<CSimpleSprite> shipSprite, bool canMove) {
+bool CanMove(std::vector<LineSlot>::iterator& it, std::vector<LineSlot>::iterator& it_around, CSimpleSprite* shipSprite, bool canMove) {
 	if (canMove) {
 		SetSpritePosition(it, it_around, shipSprite);
 		return true;
@@ -61,23 +61,11 @@ void SetSpritePosition(std::vector<LineSlot>::iterator& it, std::vector<LineSlot
 	shipSprite->SetPosition(it->GetCenterX(), it->GetCenterY());
 }
 
-void SetSpritePosition(std::vector<LineSlot>::iterator& it, std::vector<LineSlot>::iterator& it_around, std::shared_ptr<CSimpleSprite> shipSprite) {
-	it = it_around;
-	shipSprite->SetPosition(it->GetCenterX(), it->GetCenterY());
-}
-
 void SetSpriteAngle(const std::vector<LineSlot>& vecShips, std::vector<LineSlot>& vecTargets, std::vector<LineSlot>::iterator& it, CSimpleSprite* shipSprite) {
 	int enemyIndex = it - vecShips.begin();
 	float dy = vecTargets.at(enemyIndex).GetCenterY() - it->GetCenterY();
 	float dx = vecTargets.at(enemyIndex).GetCenterX() - it->GetCenterX();
 	shipSprite->SetAngle(atan2f(dy, dx) - PI/2);
-}
-
-void SetSpriteAngle(const std::vector<LineSlot>& vecShips, std::vector<LineSlot>& vecTargets, std::vector<LineSlot>::iterator& it, CSimpleSprite shipSprite) {
-	int enemyIndex = it - vecShips.begin();
-	float dy = vecTargets.at(enemyIndex).GetCenterY() - it->GetCenterY();
-	float dx = vecTargets.at(enemyIndex).GetCenterX() - it->GetCenterX();
-	shipSprite.SetAngle(atan2f(dy, dx) - PI/2);
 }
 
 //void SpritePositionMatch(Bullet& bullet, CSimpleSprite* spriteToMatch) {
