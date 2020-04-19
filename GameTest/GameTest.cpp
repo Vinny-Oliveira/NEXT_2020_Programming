@@ -37,8 +37,10 @@ int maxBullets{ 5 };
 //Bullet bullet{};
 int kill_count{};
 
+std::string instructions1 = "Move around the outer shape with arrow keys and shoot the inner shape with space.";
+std::string instructions2 = "Your bullets are recyclable, but you only have 5!";
+std::string kill_score = "Kill count: 0/0";
 std::string winMessage = "You win!";
-std::string idleMessage = "Reimagined Tempest";
 
 enum
 {
@@ -88,6 +90,7 @@ void Init()
 	// Slots of the inner shape
 	enemyCoordinates = PolygonUtil::PolygonCoordinates(sx + offset, sy + offset, size * scale, corners);
 	PolygonUtil::PopulateShipVector(enemySlots, enemyCoordinates, size, corners);
+	kill_score = "Kill count: 0/" + std::to_string(enemySlots.size());
 	
 	/* Ship sprite */
 	shipSprite = App::CreateSprite(".\\TestData\\Ships.bmp", 2, 12);
@@ -151,7 +154,6 @@ void Update(float deltaTime)
 	if (App::GetController().CheckButton(XINPUT_GAMEPAD_A, true) /*&& !bullet.GetLaunched()*/) {
 		//SpritePositionMatch(bullet, shipSprite);
 		//bullet.MatchShipPosition();
-		App::PlaySound(".\\TestData\\Test.wav");
 		for (auto& bullet : shipBullets) {
 			if (!bullet.GetLaunched()) {
 				bullet.LaunchBullet(shipIterator, enemySlots, shipIterator - shipSlots.begin());
@@ -165,7 +167,8 @@ void Update(float deltaTime)
 
 	for (auto& bullet : shipBullets) {
 		if (bullet.GetLaunched() && bullet.GoToTarget(kill_count) && (kill_count == enemySlots.size())) {
-			idleMessage = winMessage;
+			instructions1 = winMessage;
+			instructions2 = "";
 		}
 	}
 
@@ -289,7 +292,11 @@ void Render()
 	//------------------------------------------------------------------------
 	// Example Text.
 	//------------------------------------------------------------------------
-	App::Print(100, 100, idleMessage.c_str());
+	App::Print(60, 110, instructions1.c_str());
+	App::Print(60, 90, instructions2.c_str());
+
+	kill_score = "Kill count: " + std::to_string(kill_count) + "/" + std::to_string(enemySlots.size());
+	App::Print(800, 110, kill_score.c_str());
 
 }
 //------------------------------------------------------------------------
