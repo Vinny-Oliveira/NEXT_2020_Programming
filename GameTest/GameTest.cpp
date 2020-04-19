@@ -23,7 +23,7 @@
 CSimpleSprite* testSprite;
 CSimpleSprite* testSprite2;
 CSimpleSprite* shipSprite;
-CSimpleSprite* bulletSprite;
+//CSimpleSprite* bulletSprite;
 
 std::vector<LineSlot> shipSlots{};
 std::vector<LineSlot> enemySlots{};
@@ -95,13 +95,8 @@ void Init()
 	SetSpriteAngle(shipSlots, enemySlots, shipIterator, shipSprite);
 
 	/* Ship's bullet sprite */
-	bulletSprite = App::CreateSprite(".\\TestData\\Ships.bmp", 2, 12);
-	bullet.SetBullet(bulletSprite);
+	bullet.CreateSprite();
 	bullet.SetShip(shipSprite);
-	//SpritePositionMatch(bullet, shipSprite);
-	bullet.MatchShipPosition();
-	bulletSprite->SetFrame(5);
-	bulletSprite->SetScale(0.8f);
 
 	//------------------------------------------------------------------------
 }
@@ -269,7 +264,7 @@ void Render()
 	//shipSprite->SetPosition(shipIterator->GetCenterX(), shipIterator->GetCenterY());
 	shipSprite->Draw();
 	if (bullet.GetLaunched()) {
-		bulletSprite->Draw();
+		bullet.GetBullet()->Draw();
 	}
 
 	//------------------------------------------------------------------------

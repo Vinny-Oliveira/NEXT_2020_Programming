@@ -5,10 +5,8 @@ Bullet::Bullet()
 	: bulletSprite{ nullptr }, shipSprite{ nullptr }, target{ nullptr } {
 }
 
-Bullet::Bullet(CSimpleSprite bullet, CSimpleSprite ship, LineSlot lineSlot) {
-	bulletSprite = &bullet;
-	shipSprite = &ship;
-	target = &lineSlot;
+Bullet::Bullet(CSimpleSprite bullet, CSimpleSprite ship, LineSlot lineSlot) 
+	: bulletSprite{ &bullet }, shipSprite{ &ship }, target{ &lineSlot } {
 }
 
 // Copy constructor
@@ -89,4 +87,10 @@ void Bullet::MatchShipPosition() {
 		bulletSprite->SetPosition(xPos, yPos);
 		bulletSprite->SetAngle(shipSprite->GetAngle());
 	}
+}
+
+void Bullet::CreateSprite() {
+	bulletSprite = App::CreateSprite(".\\TestData\\Ships.bmp", 2, 12);
+	bulletSprite->SetFrame(5);
+	bulletSprite->SetScale(0.8f);
 }
