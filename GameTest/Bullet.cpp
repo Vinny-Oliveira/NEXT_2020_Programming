@@ -31,8 +31,9 @@ void Bullet::LaunchBullet(const std::vector<LineSlot>::iterator& ship_it, std::v
 	xPos = ship_it->GetCenterX();
 	yPos = ship_it->GetCenterY();
 
-	xTarget = targets.at(index).GetCenterX();
-	yTarget = targets.at(index).GetCenterY();
+	target = targets.at(index);
+	xTarget = target.GetCenterX();
+	yTarget = target.GetCenterY();
 
 	if (xPos == xTarget) {
 		slope = NAN;

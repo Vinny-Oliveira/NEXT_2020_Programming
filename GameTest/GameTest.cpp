@@ -13,7 +13,6 @@
 #include <algorithm>
 #include "PolygonUtil.h"
 #include "LineSlot.h"
-#include "ShipSlot.h"
 #include "ShipPositioning.h"
 #include "Bullet.h"
 

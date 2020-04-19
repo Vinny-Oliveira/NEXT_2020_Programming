@@ -1,7 +1,12 @@
-﻿  ShipPositioning.cpp
+﻿  Bullet.cpp
+D:\C++ Projects\NextAPI2020\GameTest\ShipPositioning.h(52,26): error C2065: 'Bullet': undeclared identifier
+D:\C++ Projects\NextAPI2020\GameTest\ShipPositioning.h(52,34): error C2065: 'bullet': undeclared identifier
+D:\C++ Projects\NextAPI2020\GameTest\ShipPositioning.h(52,57): error C2065: 'spriteToMatch': undeclared identifier
+D:\C++ Projects\NextAPI2020\GameTest\ShipPositioning.h(52,42): error C2275: 'CSimpleSprite': illegal use of this type as an expression
+D:\C++ Projects\NextAPI2020\GameTest\App\SimpleSprite.h(15): message : see declaration of 'CSimpleSprite'
+D:\C++ Projects\NextAPI2020\GameTest\ShipPositioning.h(52,70): error C2182: 'SpritePositionMatch': illegal use of type 'void'
+  GameTest.cpp
+D:\C++ Projects\NextAPI2020\GameTest\GameTest.cpp(137,62): warning C4244: 'argument': conversion from '__int64' to 'int', possible loss of data
+  ShipPositioning.cpp
 D:\C++ Projects\NextAPI2020\GameTest\ShipPositioning.cpp(65,17): warning C4244: 'initializing': conversion from '__int64' to 'int', possible loss of data
-  ShipSlot.cpp
   Generating Code...
-  GameTest.vcxproj -> D:\C++ Projects\NextAPI2020\x64\Debug\GameTest.exe
-  D:\C++ Projects\NextAPI2020\\GameTest\glut\bin\x64\freeglut.dll
-  1 File(s) copied

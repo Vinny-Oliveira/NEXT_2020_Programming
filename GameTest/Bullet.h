@@ -3,14 +3,15 @@
 
 #include "App/app.h"
 #include "LineSlot.h"
+#include "ShipPositioning.h"
 
 class Bullet {
 private:
 	CSimpleSprite* bulletSprite{ nullptr };
+	LineSlot target;
 
 	bool launched{};
 	bool collided{};
-	float speed{};
 
 	float xPos{};		float yPos{};
 	float xTarget{};	float yTarget{};

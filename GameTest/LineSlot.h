@@ -10,9 +10,14 @@ private:
 	float xCoordRight{};	float yCoordRight{};
 	float xCoordCenter{};	float yCoordCenter{};
 
+	int health{};
+	bool isAlive{};
+	
+	static constexpr int def_health = 5;
+
 public:
 	LineSlot();
-	LineSlot(float xStart, float yStart, float xEnd, float yEnd, float size, float angle = 0.0f);
+	LineSlot(float xStart, float yStart, float xEnd, float yEnd, float size, float angle = 0.0f, int hp = def_health);
 	~LineSlot() = default;
 
 	float GetCenterX() { return xCoordCenter; }
