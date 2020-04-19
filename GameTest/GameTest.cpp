@@ -96,8 +96,10 @@ void Init()
 
 	/* Ship's bullet sprite */
 	bulletSprite = App::CreateSprite(".\\TestData\\Ships.bmp", 2, 12);
-	bullet.SetSprite(bulletSprite);
-	SpritePositionMatch(bullet, shipSprite);
+	bullet.SetBullet(bulletSprite);
+	bullet.SetShip(shipSprite);
+	//SpritePositionMatch(bullet, shipSprite);
+	bullet.MatchShipPosition();
 	bulletSprite->SetFrame(5);
 	bulletSprite->SetScale(0.8f);
 
@@ -119,29 +121,34 @@ void Update(float deltaTime)
 	if (App::GetController().CheckButton(XINPUT_GAMEPAD_DPAD_UP)) {
 		MoveUp(shipIterator, shipSlots, shipSprite);
 		SetSpriteAngle(shipSlots, enemySlots, shipIterator, shipSprite);
-		SpritePositionMatch(bullet, shipSprite);
+		//SpritePositionMatch(bullet, shipSprite);
+		//bullet.MatchShipPosition();
 	}
 
 	if (App::GetController().CheckButton(XINPUT_GAMEPAD_DPAD_DOWN)) {
 		MoveDown(shipIterator, shipSlots, shipSprite);
 		SetSpriteAngle(shipSlots, enemySlots, shipIterator, shipSprite);
-		SpritePositionMatch(bullet, shipSprite);
+		//SpritePositionMatch(bullet, shipSprite);
+		//bullet.MatchShipPosition();
 	}
 
 	if (App::GetController().CheckButton(XINPUT_GAMEPAD_DPAD_LEFT)) {
 		MoveLeft(shipIterator, shipSlots, shipSprite);
 		SetSpriteAngle(shipSlots, enemySlots, shipIterator, shipSprite);
-		SpritePositionMatch(bullet, shipSprite);
+		//SpritePositionMatch(bullet, shipSprite);
+		//bullet.MatchShipPosition();
 	}
 
 	if (App::GetController().CheckButton(XINPUT_GAMEPAD_DPAD_RIGHT)) {
 		MoveRight(shipIterator, shipSlots, shipSprite);
 		SetSpriteAngle(shipSlots, enemySlots, shipIterator, shipSprite);
-		SpritePositionMatch(bullet, shipSprite);
+		//SpritePositionMatch(bullet, shipSprite);
+		//bullet.MatchShipPosition();
 	}
 
 	if (App::GetController().CheckButton(XINPUT_GAMEPAD_A, true) && !bullet.GetLaunched()) {
-		SpritePositionMatch(bullet, shipSprite);
+		//SpritePositionMatch(bullet, shipSprite);
+		//bullet.MatchShipPosition();
 		bullet.LaunchBullet(shipIterator, enemySlots, shipIterator - shipSlots.begin());
 		App::PlaySound(".\\TestData\\Test.wav");
 	}
@@ -261,7 +268,10 @@ void Render()
 	testSprite2->Draw();*/
 	//shipSprite->SetPosition(shipIterator->GetCenterX(), shipIterator->GetCenterY());
 	shipSprite->Draw();
-	bulletSprite->Draw();
+	if (bullet.GetLaunched()) {
+		bulletSprite->Draw();
+	}
+
 	//------------------------------------------------------------------------
 
 	//------------------------------------------------------------------------

@@ -2,37 +2,39 @@
 #include "Bullet.h"
 
 Bullet::Bullet()
-	: bulletSprite{ nullptr }, target{ nullptr } {
+	: bulletSprite{ nullptr }, shipSprite{ nullptr }, target{ nullptr } {
 }
 
-Bullet::Bullet(CSimpleSprite sprite, LineSlot lineSlot) {
-	bulletSprite = &sprite;
+Bullet::Bullet(CSimpleSprite bullet, CSimpleSprite ship, LineSlot lineSlot) {
+	bulletSprite = &bullet;
+	shipSprite = &ship;
 	target = &lineSlot;
 }
 
 // Copy constructor
 Bullet::Bullet(const Bullet& source)
-	: Bullet{ *(source.bulletSprite), *(source.target) } {
+	: Bullet{ *(source.bulletSprite), *(source.shipSprite), *(source.target) } {
 
 }
 
 // Move constructor
 Bullet::Bullet(Bullet&& source) noexcept
-	: bulletSprite{ source.bulletSprite }, target{ source.target } {
+	: bulletSprite{ source.bulletSprite }, shipSprite { source.shipSprite }, target{ source.target } {
 	source.bulletSprite = nullptr;
+	source.shipSprite = nullptr;
 	source.target = nullptr;
 }
 
 Bullet::~Bullet() {
+	delete shipSprite;
 	delete bulletSprite;
 	//delete target;
 }
 
 // Launch a bullet from the ship and set its target
 void Bullet::LaunchBullet(const std::vector<LineSlot>::iterator& ship_it, std::vector<LineSlot>& targets, int index) {
-	launched = true;
-	xPos = ship_it->GetCenterX();
-	yPos = ship_it->GetCenterY();
+	MatchShipPosition();
+	isLaunched = true;
 
 	target = &(targets.at(index));
 	xTarget = target->GetCenterX();
@@ -73,9 +75,18 @@ bool Bullet::GoToTarget(int& counter) {
 			target->SetSlotDead();
 			counter++;
 		}
-		launched = false;
+		isLaunched = false;
+		MatchShipPosition();
 		return true;
 	}
 
 	return false;
+}
+
+void Bullet::MatchShipPosition() {
+	if (!isLaunched) {
+		shipSprite->GetPosition(xPos, yPos);
+		bulletSprite->SetPosition(xPos, yPos);
+		bulletSprite->SetAngle(shipSprite->GetAngle());
+	}
 }

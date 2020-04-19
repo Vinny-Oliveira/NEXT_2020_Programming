@@ -10,12 +10,13 @@
 class Bullet {
 private:
 	CSimpleSprite* bulletSprite{ nullptr };
+	CSimpleSprite* shipSprite{ nullptr };
 	LineSlot* target{ nullptr };
 
 	//std::shared_ptr<CSimpleSprite> bulletSprite{ nullptr };
 	//std::shared_ptr<LineSlot> target{ nullptr };
 
-	bool launched{};
+	bool isLaunched{};
 	bool collided{};
 
 	float xPos{};		float yPos{};
@@ -24,17 +25,20 @@ private:
 
 public:
 	Bullet();
-	Bullet(CSimpleSprite sprite, LineSlot lineSlot);
+	Bullet(CSimpleSprite bullet, CSimpleSprite ship, LineSlot lineSlot);
 	Bullet(const Bullet& source);
 	Bullet(Bullet&& source) noexcept;
 	~Bullet();
 
-	auto GetSprite() { return bulletSprite; }
-	void SetSprite(CSimpleSprite* sprite) { bulletSprite = sprite; }
+	auto GetBullet() { return bulletSprite; }
+	void SetBullet(CSimpleSprite* sprite) { bulletSprite = sprite; }
+	
+	auto GetShip() { return shipSprite; }
+	void SetShip(CSimpleSprite* sprite) { shipSprite = sprite; }
 	//void SetSprite(CSimpleSprite* sprite) { bulletSprite = std::make_shared<CSimpleSprite>(*sprite); }
 	
-	bool GetLaunched() { return launched; }
-	void SetLaunched(bool isLaunch) { launched = isLaunch; }
+	bool GetLaunched() { return isLaunched; }
+	void SetLaunched(bool isLaunch) { isLaunched = isLaunch; }
 
 	void CreateSprite();
 	
@@ -43,6 +47,9 @@ public:
 	
 	// Make the bullet travel to its target following a line
 	bool GoToTarget(int& counter);
+
+	// Match the bullet's position and rotation to those of the ship
+	void MatchShipPosition();
 };
 
 #endif // !_BULLET_H_

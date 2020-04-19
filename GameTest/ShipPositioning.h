@@ -49,7 +49,7 @@ void SetSpritePosition(std::vector<LineSlot>::iterator& it, std::vector<LineSlot
 // Set the angle of the sprite so it points to the proper target
 void SetSpriteAngle(const std::vector<LineSlot>& vecShips, std::vector<LineSlot>& vecTargets, std::vector<LineSlot>::iterator& it, CSimpleSprite* sprite);
 
-// Rotate a bullet sprite so it matches the rotation of the ship
-void SpritePositionMatch(Bullet& bullet, CSimpleSprite* spriteToMatch);
+//// Rotate a bullet sprite so it matches the rotation of the ship
+//void SpritePositionMatch(Bullet& bullet, CSimpleSprite* spriteToMatch);
 
 #endif // !_SHIP_POSITIONING_H_
