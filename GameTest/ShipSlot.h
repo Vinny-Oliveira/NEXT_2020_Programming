@@ -6,9 +6,9 @@
 
 class ShipSlot {
 private:
-	float xCoordLeft,	yCoordLeft;
-	float xCoordRight,	yCoordRight;
-	float xCoordCenter,	yCoordCenter;
+	float xCoordLeft{};		float yCoordLeft{};
+	float xCoordRight{};	float yCoordRight{};
+	float xCoordCenter{};	float yCoordCenter{};
 
 public:
 	ShipSlot();

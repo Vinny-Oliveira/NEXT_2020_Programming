@@ -69,6 +69,8 @@ void SetSpriteAngle(const std::vector<ShipSlot>& vecShips, std::vector<ShipSlot>
 }
 
 void SpritePositionMatch(CSimpleSprite* spriteToMove, CSimpleSprite* spriteToMatch) {
-	spriteToMove->SetPosition(spriteToMatch->GetPositionX(), spriteToMatch->GetPositionY());
+	float x, y;
+	spriteToMatch->GetPosition(x, y);
+	spriteToMove->SetPosition(x, y);
 	spriteToMove->SetAngle(spriteToMatch->GetAngle());
 }

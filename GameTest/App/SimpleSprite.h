@@ -30,8 +30,6 @@ public:
     void SetFrame(unsigned int f);
 
     void GetPosition(float& x, float& y) { x = m_xpos; y = m_ypos; }
-    float GetPositionX() { return m_xpos; }
-    float GetPositionY() { return m_ypos; }
     float GetWidth()  const { return m_width; }
     float GetHeight() const { return m_height; }
     float GetAngle()  const { return m_angle; }

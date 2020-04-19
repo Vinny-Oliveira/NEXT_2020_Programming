@@ -14,6 +14,7 @@
 #include "PolygonUtil.h"
 #include "ShipSlot.h"
 #include "ShipPositioning.h"
+#include "Bullet.h"
 
 //------------------------------------------------------------------------
 // Eample data....
@@ -28,7 +29,7 @@ std::vector<ShipSlot> enemySlots{};
 std::vector<std::pair<float, float>> shipCoordinates{};
 std::vector<std::pair<float, float>> enemyCoordinates{};
 std::vector<ShipSlot>::iterator shipIterator{ shipSlots.begin() };
-int shipPosition{};
+Bullet bullet{};
 
 enum
 {
@@ -86,11 +87,12 @@ void Init()
 	shipSprite->SetScale(0.8f);
 	SetSpriteAngle(shipSlots, enemySlots, shipIterator, shipSprite);
 
-	/* Ship' bullet sprite */
+	/* Ship's bullet sprite */
 	bulletSprite = App::CreateSprite(".\\TestData\\Ships.bmp", 2, 12);
 	SpritePositionMatch(bulletSprite, shipSprite);
 	bulletSprite->SetFrame(1);
 	bulletSprite->SetScale(0.8f);
+	bullet.SetSprite(bulletSprite);
 
 	//------------------------------------------------------------------------
 }
@@ -105,7 +107,7 @@ void Update(float deltaTime)
 	// Example Sprite Code....
 	testSprite->Update(deltaTime);
 	//testSprite2->Update(deltaTime);
-	shipSprite->Update(deltaTime);
+	//shipSprite->Update(deltaTime);
 
 	if (App::GetController().CheckButton(XINPUT_GAMEPAD_DPAD_UP)) {
 		MoveUp(shipIterator, shipSlots, shipSprite);
