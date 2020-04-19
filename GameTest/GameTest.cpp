@@ -134,7 +134,7 @@ void Update(float deltaTime)
 	}
 
 	if (App::GetController().CheckButton(XINPUT_GAMEPAD_A, true)) {
-		bullet.SetLaunched(true);
+		bullet.LaunchBullet(shipIterator, enemySlots, shipIterator - shipSlots.begin());
 		App::PlaySound(".\\TestData\\Test.wav");
 	}
 

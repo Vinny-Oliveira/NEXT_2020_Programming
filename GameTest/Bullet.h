@@ -2,6 +2,7 @@
 #define _BULLET_H_
 
 #include "App/app.h"
+#include "ShipSlot.h"
 
 class Bullet {
 private:
@@ -30,7 +31,7 @@ public:
 	bool GetLaunched() { return launched; }
 	void SetLaunched(bool isLaunch) { launched = isLaunch; }
 
-	void LaunchBullet();
+	void LaunchBullet(const std::vector<ShipSlot>::iterator& ship_it, std::vector<ShipSlot>& targets, int index);
 };
 
 #endif // !_BULLET_H_
