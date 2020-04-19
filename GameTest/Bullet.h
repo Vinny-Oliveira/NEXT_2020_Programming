@@ -14,7 +14,7 @@ private:
 
 	float xPos{};		float yPos{};
 	float xTarget{};	float yTarget{};
-
+	float slope{};
 
 public:
 	Bullet();
@@ -25,13 +25,14 @@ public:
 
 	CSimpleSprite* GetSprite() { return bulletSprite; }
 	void SetSprite(CSimpleSprite* sprite) { bulletSprite = sprite; }
-	void SetSpeed(float newSpeed) { speed = newSpeed; }
-	void SetTarget(float x, float y) { xTarget = x; yTarget = y; }
+	//void SetSpeed(float newSpeed) { speed = newSpeed; }
+	//void SetTarget(float x, float y) { xTarget = x; yTarget = y; }
 	
 	bool GetLaunched() { return launched; }
 	void SetLaunched(bool isLaunch) { launched = isLaunch; }
 
 	void LaunchBullet(const std::vector<ShipSlot>::iterator& ship_it, std::vector<ShipSlot>& targets, int index);
+	void GoToTarget();
 };
 
 #endif // !_BULLET_H_

@@ -91,7 +91,7 @@ void Init()
 	bulletSprite = App::CreateSprite(".\\TestData\\Ships.bmp", 2, 12);
 	bullet.SetSprite(bulletSprite);
 	SpritePositionMatch(bullet, shipSprite);
-	bulletSprite->SetFrame(1);
+	bulletSprite->SetFrame(5);
 	bulletSprite->SetScale(0.8f);
 
 	//------------------------------------------------------------------------
@@ -133,9 +133,13 @@ void Update(float deltaTime)
 		SpritePositionMatch(bullet, shipSprite);
 	}
 
-	if (App::GetController().CheckButton(XINPUT_GAMEPAD_A, true)) {
+	if (App::GetController().CheckButton(XINPUT_GAMEPAD_A, true) && !bullet.GetLaunched()) {
 		bullet.LaunchBullet(shipIterator, enemySlots, shipIterator - shipSlots.begin());
 		App::PlaySound(".\\TestData\\Test.wav");
+	}
+
+	if (bullet.GetLaunched()) {
+		bullet.GoToTarget();
 	}
 
 	if (App::GetController().GetLeftThumbStickX() > 0.5f) {
