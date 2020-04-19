@@ -89,10 +89,10 @@ void Init()
 
 	/* Ship's bullet sprite */
 	bulletSprite = App::CreateSprite(".\\TestData\\Ships.bmp", 2, 12);
-	SpritePositionMatch(bulletSprite, shipSprite);
+	bullet.SetSprite(bulletSprite);
+	SpritePositionMatch(bullet, shipSprite);
 	bulletSprite->SetFrame(1);
 	bulletSprite->SetScale(0.8f);
-	bullet.SetSprite(bulletSprite);
 
 	//------------------------------------------------------------------------
 }
@@ -112,28 +112,31 @@ void Update(float deltaTime)
 	if (App::GetController().CheckButton(XINPUT_GAMEPAD_DPAD_UP)) {
 		MoveUp(shipIterator, shipSlots, shipSprite);
 		SetSpriteAngle(shipSlots, enemySlots, shipIterator, shipSprite);
-		SpritePositionMatch(bulletSprite, shipSprite);
+		SpritePositionMatch(bullet, shipSprite);
 	}
 
 	if (App::GetController().CheckButton(XINPUT_GAMEPAD_DPAD_DOWN)) {
 		MoveDown(shipIterator, shipSlots, shipSprite);
 		SetSpriteAngle(shipSlots, enemySlots, shipIterator, shipSprite);
-		SpritePositionMatch(bulletSprite, shipSprite);
+		SpritePositionMatch(bullet, shipSprite);
 	}
 
 	if (App::GetController().CheckButton(XINPUT_GAMEPAD_DPAD_LEFT)) {
 		MoveLeft(shipIterator, shipSlots, shipSprite);
 		SetSpriteAngle(shipSlots, enemySlots, shipIterator, shipSprite);
-		SpritePositionMatch(bulletSprite, shipSprite);
+		SpritePositionMatch(bullet, shipSprite);
 	}
 
 	if (App::GetController().CheckButton(XINPUT_GAMEPAD_DPAD_RIGHT)) {
 		MoveRight(shipIterator, shipSlots, shipSprite);
 		SetSpriteAngle(shipSlots, enemySlots, shipIterator, shipSprite);
-		SpritePositionMatch(bulletSprite, shipSprite);
+		SpritePositionMatch(bullet, shipSprite);
 	}
 
-
+	if (App::GetController().CheckButton(XINPUT_GAMEPAD_A, true)) {
+		bullet.SetLaunched(true);
+		App::PlaySound(".\\TestData\\Test.wav");
+	}
 
 	if (App::GetController().GetLeftThumbStickX() > 0.5f) {
 		testSprite->SetAnimation(ANIM_RIGHT);
@@ -183,10 +186,11 @@ void Update(float deltaTime)
 	{
 		testSprite->SetAngle(testSprite->GetAngle() - 0.1f);
 	}
-	if (App::GetController().CheckButton(XINPUT_GAMEPAD_A, true))
-	{
-		testSprite->SetAnimation(-1);
-	}
+	//if (App::GetController().CheckButton(XINPUT_GAMEPAD_A, true))
+	//{
+	//	testSprite->SetAnimation(-1);
+	//	bullet.SetLaunched(true);
+	//}
 	if (App::GetController().CheckButton(XINPUT_GAMEPAD_B, true))
 	{
 		testSprite->SetVertex(0, testSprite->GetVertex(0) + 5.0f);

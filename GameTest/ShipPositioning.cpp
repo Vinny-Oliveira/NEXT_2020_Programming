@@ -68,9 +68,12 @@ void SetSpriteAngle(const std::vector<ShipSlot>& vecShips, std::vector<ShipSlot>
 	shipSprite->SetAngle(atan2f(dy, dx) - PI/2);
 }
 
-void SpritePositionMatch(CSimpleSprite* spriteToMove, CSimpleSprite* spriteToMatch) {
+void SpritePositionMatch(Bullet& bullet, CSimpleSprite* spriteToMatch) {
+	if (bullet.GetLaunched()) {
+		return;
+	}
 	float x, y;
 	spriteToMatch->GetPosition(x, y);
-	spriteToMove->SetPosition(x, y);
-	spriteToMove->SetAngle(spriteToMatch->GetAngle());
+	bullet.GetSprite()->SetPosition(x, y);
+	bullet.GetSprite()->SetAngle(spriteToMatch->GetAngle());
 }

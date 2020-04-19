@@ -4,6 +4,7 @@
 #include <vector>
 #include <algorithm>
 #include "ShipSlot.h"
+#include "Bullet.h"
 
 // Lambda expression to check if the ship can move down
 auto lambdaDown = [](std::vector<ShipSlot>::iterator& it, std::vector<ShipSlot>::iterator& it_around) -> bool { return it_around->GetCenterY() < it->GetCenterY(); };
@@ -48,6 +49,6 @@ void SetSpritePosition(std::vector<ShipSlot>::iterator& it, std::vector<ShipSlot
 // Set the angle of the sprite so it points to the proper target
 void SetSpriteAngle(const std::vector<ShipSlot>& vecShips, std::vector<ShipSlot>& vecTargets, std::vector<ShipSlot>::iterator& it, CSimpleSprite* sprite);
 
-void SpritePositionMatch(CSimpleSprite* spriteToMove, CSimpleSprite* spriteToMatch);
+void SpritePositionMatch(Bullet& bullet, CSimpleSprite* spriteToMatch);
 
 #endif // !_SHIP_POSITIONING_H_
