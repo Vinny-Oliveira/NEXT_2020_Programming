@@ -36,16 +36,23 @@ public:
 	bool GetLaunched() { return isLaunched; }
 	void SetLaunched(bool isLaunch) { isLaunched = isLaunch; }
 
+	// Create a bullet sprite
 	void CreateSprite(int frame);
 	
 	// Launch a bullet towards its target
-	virtual void LaunchBullet(std::vector<LineSlot>& targets, int index);
+	void LaunchBullet(LineSlot& new_target);
 	
 	// Make the bullet travel to its target following a line
 	bool GoToTarget(int& counter);
 
 	// Match the bullet's position and rotation to those of the ship
 	void MatchShipPosition();
+	
+	// Define the bullet's target position
+	void DefineTarget(LineSlot& new_target);
+
+	// Calculate the slope between the target and the starting position
+	void CalculateSlope();
 };
 
 #endif // !_BULLET_H_

@@ -157,7 +157,7 @@ void Update(float deltaTime)
 	if (App::GetController().CheckButton(XINPUT_GAMEPAD_A, true)) {
 		for (auto& bullet : shipBullets) {
 			if (!bullet.GetLaunched()) {
-				bullet.LaunchBullet(enemySlots, shipIterator - shipSlots.begin());
+				bullet.LaunchBullet(enemySlots.at(shipIterator - shipSlots.begin()));
 				App::PlaySound(".\\TestData\\Test.wav");
 				break;
 			}
@@ -168,6 +168,23 @@ void Update(float deltaTime)
 		if (bullet.GetLaunched() && bullet.GoToTarget(kill_count) && (kill_count == enemySlots.size())) {
 			instructions1 = winMessage;
 			instructions2 = "";
+		}
+	}
+
+	
+
+	if (enemyBullets.at(0).GetCanShoot()) {
+		srand(time(NULL));
+		randTarget = rand() % enemySlots.size();
+		enemyBullets.at(randTarget).LaunchBullet(enemySlots.at(randTarget), shipSlots.at(randTarget));
+		enemyBullets.at(0).SetCanShoot(false);
+	}
+
+	for (auto& bullet : enemyBullets) {
+		if (bullet.GetLaunched() && bullet.GoToTarget(deathCount) /*&& (kill_count == enemySlots.size())*/) {
+			enemyBullets.at(0).SetCanShoot(true);
+			//instructions1 = winMessage;
+			//instructions2 = "";
 		}
 	}
 
@@ -281,6 +298,11 @@ void Render()
 	//shipSprite->SetPosition(shipIterator->GetCenterX(), shipIterator->GetCenterY());
 	shipSprite->Draw();
 	for (auto& bullet : shipBullets) {
+		if (bullet.GetLaunched()) {
+			bullet.GetBullet()->Draw();
+		}
+	}
+	for (auto& bullet : enemyBullets) {
 		if (bullet.GetLaunched()) {
 			bullet.GetBullet()->Draw();
 		}

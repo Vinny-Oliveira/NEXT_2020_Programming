@@ -27,8 +27,19 @@ EnemyBullet::EnemyBullet(EnemyBullet&& source) noexcept {
 
 bool EnemyBullet::canShoot = true;
 
-void EnemyBullet::LaunchBullet(std::vector<LineSlot>& targets, int index) {
-	if (canShoot) {
-		Bullet::LaunchBullet(targets, index);
-	}
+void EnemyBullet::LaunchBullet(LineSlot& startSlot, LineSlot& new_target) {
+	DefineTarget(new_target);
+	GoToStartingPosition(startSlot);
+	CalculateSlope();
+	isLaunched = true;
+}
+
+void EnemyBullet::GoToStartingPosition(LineSlot& slot) {
+	xPos = slot.GetCenterX();
+	yPos = slot.GetCenterY();
+	bulletSprite->SetPosition(xPos, yPos);
+	
+	float dy = yTarget - yPos;
+	float dx = xTarget - xPos;
+	bulletSprite->SetAngle(atan2f(dy, dx) - PI / 2);
 }

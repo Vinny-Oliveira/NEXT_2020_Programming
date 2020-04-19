@@ -14,7 +14,14 @@ public:
 	EnemyBullet(EnemyBullet&& source) noexcept;
 	virtual ~EnemyBullet() = default;
 
-	virtual void LaunchBullet(std::vector<LineSlot>& targets, int index) override;
+	bool GetCanShoot() { return canShoot; }
+	void SetCanShoot(bool shoot) { canShoot = shoot; }
+
+	// Launch a bullet from an enemy slot to a target
+	void LaunchBullet(LineSlot& startSlot, LineSlot& new_target);
+
+	// Match the bullet's position and rotation to those of the ship
+	void GoToStartingPosition(LineSlot& slot);
 };
 
 #endif // !_ENEMY_BULLET_H_

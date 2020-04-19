@@ -33,14 +33,20 @@ Bullet::~Bullet() {
 }
 
 // Launch a bullet from the ship and set its target
-void Bullet::LaunchBullet(std::vector<LineSlot>& targets, int index) {
-	MatchShipPosition();
+void Bullet::LaunchBullet(LineSlot& new_target) {
 	isLaunched = true;
+	MatchShipPosition();
+	DefineTarget(new_target);
+	CalculateSlope();
+}
 
-	target = &(targets.at(index));
+void Bullet::DefineTarget(LineSlot& new_target) {
+	target = &new_target;
 	xTarget = target->GetCenterX();
 	yTarget = target->GetCenterY();
+}
 
+void Bullet::CalculateSlope() {
 	if (fabsf(xTarget - xPos) < 0.0001f) {
 		slope = NAN;
 	} else {
@@ -77,7 +83,6 @@ bool Bullet::GoToTarget(int& counter) {
 			counter++;
 		}
 		isLaunched = false;
-		MatchShipPosition();
 		return true;
 	}
 
@@ -85,11 +90,9 @@ bool Bullet::GoToTarget(int& counter) {
 }
 
 void Bullet::MatchShipPosition() {
-	if (!isLaunched) {
-		shipSprite->GetPosition(xPos, yPos);
-		bulletSprite->SetPosition(xPos, yPos);
-		bulletSprite->SetAngle(shipSprite->GetAngle());
-	}
+	shipSprite->GetPosition(xPos, yPos);
+	bulletSprite->SetPosition(xPos, yPos);
+	bulletSprite->SetAngle(shipSprite->GetAngle());
 }
 
 void Bullet::CreateSprite(int frame) {
