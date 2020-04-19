@@ -16,13 +16,19 @@ EnemyBullet::EnemyBullet(const EnemyBullet& source)
 
 }
 
-EnemyBullet::EnemyBullet(EnemyBullet&& source) noexcept
-	: Bullet{ source } {
-
+EnemyBullet::EnemyBullet(EnemyBullet&& source) noexcept {
+	bulletSprite = source.bulletSprite;
+	//shipSprite = source.shipSprite;
+	target = source.target;
+	source.bulletSprite = nullptr;
+	//source.shipSprite = nullptr;
+	source.target = nullptr;
 }
 
+bool EnemyBullet::canShoot = true;
+
 void EnemyBullet::LaunchBullet(std::vector<LineSlot>& targets, int index) {
-	if (!isWaiting) {
+	if (canShoot) {
 		Bullet::LaunchBullet(targets, index);
 	}
 }

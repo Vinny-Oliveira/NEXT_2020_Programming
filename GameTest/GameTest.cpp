@@ -18,6 +18,7 @@
 #include "LineSlot.h"
 #include "ShipPositioning.h"
 #include "Bullet.h"
+#include "EnemyBullet.h"
 
 //------------------------------------------------------------------------
 // Eample data....
@@ -34,7 +35,7 @@ std::vector<std::pair<float, float>> enemyCoordinates{};
 std::vector<LineSlot>::iterator shipIterator{ shipSlots.begin() };
 
 std::vector<Bullet> shipBullets;
-std::vector<Bullet> enemyBullets;
+std::vector<EnemyBullet> enemyBullets;
 int maxBullets{ 5 };
 //Bullet bullet{};
 

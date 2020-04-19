@@ -5,7 +5,7 @@
 
 class EnemyBullet : public Bullet {
 private:
-	static bool isWaiting;
+	static bool canShoot;
 
 public:
 	EnemyBullet();

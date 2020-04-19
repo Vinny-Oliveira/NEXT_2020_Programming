@@ -7,9 +7,11 @@
 #include "LineSlot.h"
 
 class Bullet {
+private:
+	CSimpleSprite* shipSprite{ nullptr };
+
 protected:
 	CSimpleSprite* bulletSprite{ nullptr };
-	CSimpleSprite* shipSprite{ nullptr };
 	LineSlot* target{ nullptr };
 
 	bool isLaunched{};
