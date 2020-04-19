@@ -30,8 +30,11 @@ std::vector<LineSlot> enemySlots{};
 std::vector<std::pair<float, float>> shipCoordinates{};
 std::vector<std::pair<float, float>> enemyCoordinates{};
 std::vector<LineSlot>::iterator shipIterator{ shipSlots.begin() };
+
+std::vector<Bullet> shipBullets;
 Bullet bullet{};
 int kill_count{};
+
 std::string winMessage = "You win!";
 std::string idleMessage = "Reimagined Tempest";
 

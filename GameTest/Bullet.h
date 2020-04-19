@@ -2,6 +2,8 @@
 #define _BULLET_H_
 
 #include <memory>
+#include <math.h>
+#include <cmath>
 #include "App/app.h"
 #include "LineSlot.h"
 
@@ -34,6 +36,8 @@ public:
 	bool GetLaunched() { return launched; }
 	void SetLaunched(bool isLaunch) { launched = isLaunch; }
 
+	void CreateSprite();
+	
 	// Launch a bullet towards its target
 	void LaunchBullet(const std::vector<LineSlot>::iterator& ship_it, std::vector<LineSlot>& targets, int index);
 	

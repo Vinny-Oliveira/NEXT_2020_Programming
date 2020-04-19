@@ -38,32 +38,36 @@ void Bullet::LaunchBullet(const std::vector<LineSlot>::iterator& ship_it, std::v
 	xTarget = target->GetCenterX();
 	yTarget = target->GetCenterY();
 
-	if (xPos == xTarget) {
+	if (fabsf(xTarget - xPos) < 0.0001f) {
 		slope = NAN;
 	} else {
 		slope = (yTarget - yPos) / (xTarget - xPos);
 	}
 }
 
+// Make the bullet travel to its target following a line
 bool Bullet::GoToTarget(int& counter) {
+	// Move x
 	if (xPos < xTarget) {
 		xPos++;
 	} else if (xPos > xTarget) {
 		xPos--;
 	}
 
-	if (slope == NAN) {
+	// Calculate linear equation to move y
+	if (std::isnan(slope)) {
 		if (yPos < yTarget) {
 			yPos++;
 		} else if (yPos > yTarget) {
 			yPos--;
 		}
 	} else if (yPos != yTarget) {
-		yPos = slope * (xPos - xTarget) + yTarget; // Line equation
+		yPos = slope * (xPos - xTarget) + yTarget; // Linear equation
 	}
 
 	bulletSprite->SetPosition(xPos, yPos);
 
+	// Kill the target
 	if ((fabsf(xPos - xTarget) < 2) && (fabsf(yPos - yTarget) < 2)) {
 		if (target->IsAlive()) {
 			target->SetSlotDead();
