@@ -19,20 +19,20 @@ auto lambdaLeft = [](std::vector<LineSlot>::iterator& it, std::vector<LineSlot>:
 auto lambdaRight = [](std::vector<LineSlot>::iterator& it, std::vector<LineSlot>::iterator& it_around) -> bool { return it_around->GetCenterX() > it->GetCenterX(); };
 
 // Handle if the ship can move up and how it moves
-void MoveUp(std::vector<LineSlot>::iterator& it, std::vector<LineSlot>& shipSlots, CSimpleSprite* shipSprite);
+void MoveUp(std::vector<LineSlot>::iterator& it, std::vector<LineSlot>& shipSlots, std::shared_ptr<CSimpleSprite> shipSprite);
 
 // Handle if the ship can move down and how it moves
-void MoveDown(std::vector<LineSlot>::iterator& it, std::vector<LineSlot>& shipSlots, CSimpleSprite* shipSprite);
+void MoveDown(std::vector<LineSlot>::iterator& it, std::vector<LineSlot>& shipSlots, std::shared_ptr<CSimpleSprite> shipSprite);
 
 // Handle if the ship can move left and how it moves
-void MoveLeft(std::vector<LineSlot>::iterator& it, std::vector<LineSlot>& shipSlots, CSimpleSprite* shipSprite);
+void MoveLeft(std::vector<LineSlot>::iterator& it, std::vector<LineSlot>& shipSlots, std::shared_ptr<CSimpleSprite> shipSprite);
 
 // Handle if the ship can move right and how it moves
-void MoveRight(std::vector<LineSlot>::iterator& it, std::vector<LineSlot>& shipSlots, CSimpleSprite* shipSprite);
+void MoveRight(std::vector<LineSlot>::iterator& it, std::vector<LineSlot>& shipSlots, std::shared_ptr<CSimpleSprite> shipSprite);
 
 // Handle if the ship can move in a specific direction and how it moves
 template<typename F>
-void MoveShip(std::vector<LineSlot>::iterator& it, std::vector<LineSlot>& shipSlots, CSimpleSprite* shipSprite, F lambdaMove);
+void MoveShip(std::vector<LineSlot>::iterator& it, std::vector<LineSlot>& shipSlots, std::shared_ptr<CSimpleSprite> shipSprite, F lambdaMove);
 
 // Adjust the iterator to point to the previous available slot in the sequence
 void CheckPreviousSlot(std::vector<LineSlot>::iterator& it_around, std::vector<LineSlot>& shipSlots);
@@ -45,9 +45,11 @@ bool CanMove(std::vector<LineSlot>::iterator& it, std::vector<LineSlot>::iterato
 
 // Set the position of the sprite to a new slot
 void SetSpritePosition(std::vector<LineSlot>::iterator& it, std::vector<LineSlot>::iterator& it_around, CSimpleSprite* sprite);
+void SetSpritePosition(std::vector<LineSlot>::iterator& it, std::vector<LineSlot>::iterator& it_around, std::shared_ptr<CSimpleSprite> sprite);
 
 // Set the angle of the sprite so it points to the proper target
 void SetSpriteAngle(const std::vector<LineSlot>& vecShips, std::vector<LineSlot>& vecTargets, std::vector<LineSlot>::iterator& it, CSimpleSprite* sprite);
+void SetSpriteAngle(const std::vector<LineSlot>& vecShips, std::vector<LineSlot>& vecTargets, std::vector<LineSlot>::iterator& it, CSimpleSprite sprite);
 
 //// Rotate a bullet sprite so it matches the rotation of the ship
 //void SpritePositionMatch(Bullet& bullet, CSimpleSprite* spriteToMatch);
