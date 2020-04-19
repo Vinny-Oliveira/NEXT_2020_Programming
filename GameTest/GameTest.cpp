@@ -33,6 +33,8 @@ std::vector<LineSlot>::iterator shipIterator{ shipSlots.begin() };
 
 std::vector<Bullet> shipBullets;
 Bullet bullet{};
+int maxBullets{ 5 };
+//Bullet bullet{};
 int kill_count{};
 
 std::string winMessage = "You win!";
@@ -94,9 +96,14 @@ void Init()
 	shipSprite->SetScale(0.8f);
 	SetSpriteAngle(shipSlots, enemySlots, shipIterator, shipSprite);
 
-	/* Ship's bullet sprite */
-	bullet.CreateSprite();
-	bullet.SetShip(shipSprite);
+	/* Ship's bullets */
+	for (int i{ 0 }; i < maxBullets; i++) {
+		shipBullets.emplace_back();
+		shipBullets.back().CreateSprite();
+		shipBullets.back().SetShip(shipSprite);
+	}
+	//bullet.CreateSprite();
+	//bullet.SetShip(shipSprite);
 
 	//------------------------------------------------------------------------
 }
@@ -141,15 +148,23 @@ void Update(float deltaTime)
 		//bullet.MatchShipPosition();
 	}
 
-	if (App::GetController().CheckButton(XINPUT_GAMEPAD_A, true) && !bullet.GetLaunched()) {
+	if (App::GetController().CheckButton(XINPUT_GAMEPAD_A, true) /*&& !bullet.GetLaunched()*/) {
 		//SpritePositionMatch(bullet, shipSprite);
 		//bullet.MatchShipPosition();
-		bullet.LaunchBullet(shipIterator, enemySlots, shipIterator - shipSlots.begin());
 		App::PlaySound(".\\TestData\\Test.wav");
+		for (auto& bullet : shipBullets) {
+			if (!bullet.GetLaunched()) {
+				bullet.LaunchBullet(shipIterator, enemySlots, shipIterator - shipSlots.begin());
+				App::PlaySound(".\\TestData\\Test.wav");
+				break;
+			}
+		}
+		//bullet.LaunchBullet(shipIterator, enemySlots, shipIterator - shipSlots.begin());
+		//App::PlaySound(".\\TestData\\Test.wav");
 	}
 
-	if (bullet.GetLaunched() && bullet.GoToTarget(kill_count)) {
-		if (kill_count == enemySlots.size()) {
+	for (auto& bullet : shipBullets) {
+		if (bullet.GetLaunched() && bullet.GoToTarget(kill_count) && (kill_count == enemySlots.size())) {
 			idleMessage = winMessage;
 		}
 	}
@@ -263,8 +278,10 @@ void Render()
 	testSprite2->Draw();*/
 	//shipSprite->SetPosition(shipIterator->GetCenterX(), shipIterator->GetCenterY());
 	shipSprite->Draw();
-	if (bullet.GetLaunched()) {
-		bullet.GetBullet()->Draw();
+	for (auto& bullet : shipBullets) {
+		if (bullet.GetLaunched()) {
+			bullet.GetBullet()->Draw();
+		}
 	}
 
 	//------------------------------------------------------------------------
@@ -285,5 +302,6 @@ void Shutdown()
 	// Example Sprite Code....
 	delete testSprite;
 	delete testSprite2;
+	delete shipSprite;
 	//------------------------------------------------------------------------
 }
