@@ -12,6 +12,8 @@
 #include <vector>
 #include <algorithm>
 #include <string>
+#include <cstdlib>
+#include <ctime>
 #include "PolygonUtil.h"
 #include "LineSlot.h"
 #include "ShipPositioning.h"
@@ -32,10 +34,14 @@ std::vector<std::pair<float, float>> enemyCoordinates{};
 std::vector<LineSlot>::iterator shipIterator{ shipSlots.begin() };
 
 std::vector<Bullet> shipBullets;
-Bullet bullet{};
+std::vector<Bullet> enemyBullets;
 int maxBullets{ 5 };
 //Bullet bullet{};
+
 int kill_count{};
+int deathCount{};
+int randTarget{};
+
 
 std::string instructions1 = "Move around the outer shape with arrow keys and shoot the inner shape with space.";
 std::string instructions2 = "Your bullets are recyclable, but you only have 5!";
@@ -99,14 +105,18 @@ void Init()
 	shipSprite->SetScale(0.8f);
 	SetSpriteAngle(shipSlots, enemySlots, shipIterator, shipSprite);
 
-	/* Ship's bullets */
+	/* Ship bullets */
 	for (int i{ 0 }; i < maxBullets; i++) {
 		shipBullets.emplace_back();
-		shipBullets.back().CreateSprite();
+		shipBullets.back().CreateSprite(5);
 		shipBullets.back().SetShip(shipSprite);
 	}
-	//bullet.CreateSprite();
-	//bullet.SetShip(shipSprite);
+
+	// Enemy bullets
+	for (int i{ 0 }; i < enemySlots.size(); i++) {
+		enemyBullets.emplace_back();
+		enemyBullets.back().CreateSprite(11);
+	}
 
 	//------------------------------------------------------------------------
 }
@@ -126,43 +136,31 @@ void Update(float deltaTime)
 	if (App::GetController().CheckButton(XINPUT_GAMEPAD_DPAD_UP)) {
 		MoveUp(shipIterator, shipSlots, shipSprite);
 		SetSpriteAngle(shipSlots, enemySlots, shipIterator, shipSprite);
-		//SpritePositionMatch(bullet, shipSprite);
-		//bullet.MatchShipPosition();
 	}
 
 	if (App::GetController().CheckButton(XINPUT_GAMEPAD_DPAD_DOWN)) {
 		MoveDown(shipIterator, shipSlots, shipSprite);
 		SetSpriteAngle(shipSlots, enemySlots, shipIterator, shipSprite);
-		//SpritePositionMatch(bullet, shipSprite);
-		//bullet.MatchShipPosition();
 	}
 
 	if (App::GetController().CheckButton(XINPUT_GAMEPAD_DPAD_LEFT)) {
 		MoveLeft(shipIterator, shipSlots, shipSprite);
 		SetSpriteAngle(shipSlots, enemySlots, shipIterator, shipSprite);
-		//SpritePositionMatch(bullet, shipSprite);
-		//bullet.MatchShipPosition();
 	}
 
 	if (App::GetController().CheckButton(XINPUT_GAMEPAD_DPAD_RIGHT)) {
 		MoveRight(shipIterator, shipSlots, shipSprite);
 		SetSpriteAngle(shipSlots, enemySlots, shipIterator, shipSprite);
-		//SpritePositionMatch(bullet, shipSprite);
-		//bullet.MatchShipPosition();
 	}
 
-	if (App::GetController().CheckButton(XINPUT_GAMEPAD_A, true) /*&& !bullet.GetLaunched()*/) {
-		//SpritePositionMatch(bullet, shipSprite);
-		//bullet.MatchShipPosition();
+	if (App::GetController().CheckButton(XINPUT_GAMEPAD_A, true)) {
 		for (auto& bullet : shipBullets) {
 			if (!bullet.GetLaunched()) {
-				bullet.LaunchBullet(shipIterator, enemySlots, shipIterator - shipSlots.begin());
+				bullet.LaunchBullet(enemySlots, shipIterator - shipSlots.begin());
 				App::PlaySound(".\\TestData\\Test.wav");
 				break;
 			}
 		}
-		//bullet.LaunchBullet(shipIterator, enemySlots, shipIterator - shipSlots.begin());
-		//App::PlaySound(".\\TestData\\Test.wav");
 	}
 
 	for (auto& bullet : shipBullets) {

@@ -33,7 +33,7 @@ Bullet::~Bullet() {
 }
 
 // Launch a bullet from the ship and set its target
-void Bullet::LaunchBullet(const std::vector<LineSlot>::iterator& ship_it, std::vector<LineSlot>& targets, int index) {
+void Bullet::LaunchBullet(std::vector<LineSlot>& targets, int index) {
 	MatchShipPosition();
 	isLaunched = true;
 
@@ -92,8 +92,8 @@ void Bullet::MatchShipPosition() {
 	}
 }
 
-void Bullet::CreateSprite() {
+void Bullet::CreateSprite(int frame) {
 	bulletSprite = App::CreateSprite(".\\TestData\\Ships.bmp", 2, 12);
-	bulletSprite->SetFrame(5);
+	bulletSprite->SetFrame(frame);
 	bulletSprite->SetScale(0.8f);
 }
