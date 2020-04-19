@@ -11,6 +11,7 @@
 
 #include <vector>
 #include <algorithm>
+#include <string>
 #include "PolygonUtil.h"
 #include "LineSlot.h"
 #include "ShipPositioning.h"
@@ -30,6 +31,9 @@ std::vector<std::pair<float, float>> shipCoordinates{};
 std::vector<std::pair<float, float>> enemyCoordinates{};
 std::vector<LineSlot>::iterator shipIterator{ shipSlots.begin() };
 Bullet bullet{};
+int kill_count{};
+std::string winMessage = "You win!";
+std::string idleMessage = "Reimagined Tempest";
 
 enum
 {
@@ -134,12 +138,15 @@ void Update(float deltaTime)
 	}
 
 	if (App::GetController().CheckButton(XINPUT_GAMEPAD_A, true) && !bullet.GetLaunched()) {
+		SpritePositionMatch(bullet, shipSprite);
 		bullet.LaunchBullet(shipIterator, enemySlots, shipIterator - shipSlots.begin());
 		App::PlaySound(".\\TestData\\Test.wav");
 	}
 
-	if (bullet.GetLaunched()) {
-		bullet.GoToTarget();
+	if (bullet.GetLaunched() && bullet.GoToTarget(kill_count)) {
+		if (kill_count == enemySlots.size()) {
+			idleMessage = winMessage;
+		}
 	}
 
 	if (App::GetController().GetLeftThumbStickX() > 0.5f) {
@@ -257,7 +264,7 @@ void Render()
 	//------------------------------------------------------------------------
 	// Example Text.
 	//------------------------------------------------------------------------
-	App::Print(100, 100, "Reimagined Tempest");
+	App::Print(100, 100, idleMessage.c_str());
 
 }
 //------------------------------------------------------------------------

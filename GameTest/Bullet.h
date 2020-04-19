@@ -38,7 +38,7 @@ public:
 	void LaunchBullet(const std::vector<LineSlot>::iterator& ship_it, std::vector<LineSlot>& targets, int index);
 	
 	// Make the bullet travel to its target following a line
-	void GoToTarget();
+	bool GoToTarget(int& counter);
 };
 
 #endif // !_BULLET_H_

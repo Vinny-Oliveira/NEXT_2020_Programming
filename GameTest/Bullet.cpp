@@ -45,7 +45,7 @@ void Bullet::LaunchBullet(const std::vector<LineSlot>::iterator& ship_it, std::v
 	}
 }
 
-void Bullet::GoToTarget() {
+bool Bullet::GoToTarget(int& counter) {
 	if (xPos < xTarget) {
 		xPos++;
 	} else if (xPos > xTarget) {
@@ -65,7 +65,13 @@ void Bullet::GoToTarget() {
 	bulletSprite->SetPosition(xPos, yPos);
 
 	if ((fabsf(xPos - xTarget) < 2) && (fabsf(yPos - yTarget) < 2)) {
-		target->SetSlotDead();
+		if (target->IsAlive()) {
+			target->SetSlotDead();
+			counter++;
+		}
 		launched = false;
+		return true;
 	}
+
+	return false;
 }

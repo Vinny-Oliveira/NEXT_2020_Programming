@@ -23,6 +23,7 @@ public:
 	float GetCenterX() { return xCoordCenter; }
 	float GetCenterY() { return yCoordCenter; }
 
+	bool IsAlive() { return isAlive; }
 	void SetSlotDead() { isAlive = false; }
 
 	// Draw the line white if it is alive, red if it is not
