@@ -24,9 +24,12 @@ Bullet::Bullet(Bullet&& source) noexcept
 }
 
 Bullet::~Bullet() {
+	shipSprite = nullptr;
+	bulletSprite = nullptr;
+	target = nullptr;
 	delete shipSprite;
 	delete bulletSprite;
-	//delete target;
+	delete target;
 }
 
 // Launch a bullet from the ship and set its target
