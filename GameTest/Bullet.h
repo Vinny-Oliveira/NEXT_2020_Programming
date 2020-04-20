@@ -43,7 +43,7 @@ public:
 	void LaunchBullet(LineSlot& new_target);
 	
 	// Make the bullet travel to its target following a line
-	bool GoToTarget(int& counter);
+	bool GoToTarget();
 
 	// Match the bullet's position and rotation to those of the ship
 	void MatchShipPosition();

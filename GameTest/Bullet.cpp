@@ -55,7 +55,7 @@ void Bullet::CalculateSlope() {
 }
 
 // Make the bullet travel to its target following a line
-bool Bullet::GoToTarget(int& counter) {
+bool Bullet::GoToTarget() {
 	// Move x
 	if (xPos < xTarget) {
 		xPos++;
@@ -80,7 +80,6 @@ bool Bullet::GoToTarget(int& counter) {
 	if ((fabsf(xPos - xTarget) < 2) && (fabsf(yPos - yTarget) < 2)) {
 		if (target->IsAlive()) {
 			target->SetSlotDead();
-			counter++;
 		}
 		isLaunched = false;
 		return true;

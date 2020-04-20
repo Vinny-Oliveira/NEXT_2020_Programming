@@ -42,11 +42,14 @@ int kill_count{};
 int hangarCount{};
 int randTarget{};
 
+bool isGameWon{ false };
+bool isGameLost{ false };
 
 std::string instructions1 = "Move around the outer shape with arrow keys and shoot the inner shape with space.";
 std::string instructions2 = "Your bullets are recyclable, but you only have 5!";
 std::string kill_score = "Kill count: 0/0";
 std::string winMessage = "You win!";
+std::string lossMessage = "You lose...";
 
 enum
 {
@@ -129,9 +132,13 @@ void Update(float deltaTime)
 {
 	//------------------------------------------------------------------------
 	// Example Sprite Code....
-	testSprite->Update(deltaTime);
-	//testSprite2->Update(deltaTime);
-	//shipSprite->Update(deltaTime);
+	//testSprite->Update(deltaTime);
+	////testSprite2->Update(deltaTime);
+	////shipSprite->Update(deltaTime);
+
+	if (isGameWon || isGameLost) {
+		return;
+	}
 
 	/* Ship movement commands */
 	if (App::GetController().CheckButton(XINPUT_GAMEPAD_DPAD_UP)) {
@@ -165,11 +172,10 @@ void Update(float deltaTime)
 		}
 	}
 
-	/* Handle enemy destruction */
+	/* Handle enemy destruction and if the game has been won */
 	for (auto& bullet : shipBullets) {
-		if (bullet.GetLaunched() && bullet.GoToTarget(kill_count) && (kill_count == enemySlots.size())) {
-			instructions1 = winMessage;
-			instructions2 = "";
+		if (bullet.GetLaunched() && bullet.GoToTarget()) {
+			isGameWon = std::count_if(enemySlots.begin(), enemySlots.end(), [](LineSlot slot) { return slot.IsAlive(); }) < 1;
 		}
 	}
 
@@ -184,18 +190,19 @@ void Update(float deltaTime)
 		if (!enemyBullets.at(randTarget).GetLaunched()) {
 			enemyBullets.at(randTarget).LaunchBullet(enemySlots.at(randTarget), shipSlots.at(randTarget));
 		}
-		
-		//enemyBullets.at(0).SetCanShoot(false);
 	}
 
-	/* Handle how enemies destroy hangars */
+	/* Handle how enemies destroy hangars and if the game has been lost */
 	for (auto& bullet : enemyBullets) {
-		if (bullet.GetLaunched() && bullet.GoToTarget(hangarCount) /*&& (kill_count == enemySlots.size())*/) {
-			enemyBullets.at(0).SetCanShoot(std::count_if(shipSlots.begin(), shipSlots.end(), [](LineSlot slot) {return slot.IsAlive(); }) > 0);
-			//instructions1 = winMessage;
-			//instructions2 = "";
+		if (bullet.GetLaunched() && bullet.GoToTarget()) {
+			enemyBullets.at(0).SetCanShoot(std::count_if(shipSlots.begin(), shipSlots.end(), [](LineSlot slot) { return slot.IsAlive(); }) > 0);
+			isGameLost = std::count_if(shipSlots.begin(), shipSlots.end(), [](LineSlot slot) { return slot.IsAlive(); }) < 1;
 		}
 	}
+
+	/* Update counters */
+	kill_count = std::count_if(enemySlots.begin(), enemySlots.end(), [](LineSlot slot) {return !slot.IsAlive(); });
+	hangarCount = std::count_if(shipSlots.begin(), shipSlots.end(), [](LineSlot slot) {return slot.IsAlive(); });
 
 	if (App::GetController().GetLeftThumbStickX() > 0.5f) {
 		testSprite->SetAnimation(ANIM_RIGHT);
