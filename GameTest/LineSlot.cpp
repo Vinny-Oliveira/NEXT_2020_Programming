@@ -6,14 +6,13 @@ LineSlot::LineSlot()
 
 }
 
-LineSlot::LineSlot(float xStart, float yStart, float xEnd, float yEnd, float size, float angle, int hp)
+LineSlot::LineSlot(float xStart, float yStart, float xEnd, float yEnd, float size, float angle)
 	: xCoordLeft{ xStart }, 
 	  yCoordLeft{ yStart }, 
 	  xCoordRight{ xEnd }, 
 	  yCoordRight{ yEnd },
 	  xCoordCenter{ (xCoordLeft + xCoordRight) / 2 },
 	  yCoordCenter{ (yCoordLeft + yCoordRight) / 2 },
-	  health{ hp },
 	  isAlive{ true } {
 	
 }

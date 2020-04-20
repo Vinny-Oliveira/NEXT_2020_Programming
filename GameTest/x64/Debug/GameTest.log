@@ -1,4 +1,5 @@
-﻿  EnemyBullet.cpp
+﻿  GameTest.cpp
+D:\C++ Projects\NextAPI2020\GameTest\GameTest.cpp(178,13): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
   GameTest.vcxproj -> D:\C++ Projects\NextAPI2020\x64\Debug\GameTest.exe
   D:\C++ Projects\NextAPI2020\\GameTest\glut\bin\x64\freeglut.dll
   1 File(s) copied

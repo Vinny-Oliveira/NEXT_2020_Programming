@@ -37,10 +37,9 @@ std::vector<LineSlot>::iterator shipIterator{ shipSlots.begin() };
 std::vector<Bullet> shipBullets;
 std::vector<EnemyBullet> enemyBullets;
 int maxBullets{ 5 };
-//Bullet bullet{};
 
 int kill_count{};
-int deathCount{};
+int hangarCount{};
 int randTarget{};
 
 
@@ -134,6 +133,7 @@ void Update(float deltaTime)
 	//testSprite2->Update(deltaTime);
 	//shipSprite->Update(deltaTime);
 
+	/* Ship movement commands */
 	if (App::GetController().CheckButton(XINPUT_GAMEPAD_DPAD_UP)) {
 		MoveUp(shipIterator, shipSlots, shipSprite);
 		SetSpriteAngle(shipSlots, enemySlots, shipIterator, shipSprite);
@@ -154,6 +154,7 @@ void Update(float deltaTime)
 		SetSpriteAngle(shipSlots, enemySlots, shipIterator, shipSprite);
 	}
 
+	/* Ship shoot command */
 	if (App::GetController().CheckButton(XINPUT_GAMEPAD_A, true)) {
 		for (auto& bullet : shipBullets) {
 			if (!bullet.GetLaunched()) {
@@ -164,6 +165,7 @@ void Update(float deltaTime)
 		}
 	}
 
+	/* Handle enemy destruction */
 	for (auto& bullet : shipBullets) {
 		if (bullet.GetLaunched() && bullet.GoToTarget(kill_count) && (kill_count == enemySlots.size())) {
 			instructions1 = winMessage;
@@ -171,18 +173,25 @@ void Update(float deltaTime)
 		}
 	}
 
-	
-
+	/* Control how enemies shoot */
 	if (enemyBullets.at(0).GetCanShoot()) {
 		srand(time(NULL));
-		randTarget = rand() % enemySlots.size();
-		enemyBullets.at(randTarget).LaunchBullet(enemySlots.at(randTarget), shipSlots.at(randTarget));
-		enemyBullets.at(0).SetCanShoot(false);
+
+		do {
+			randTarget = rand() % enemySlots.size();
+		} while (!shipSlots.at(randTarget).IsAlive() && enemyBullets.at(0).GetCanShoot());
+
+		if (!enemyBullets.at(randTarget).GetLaunched()) {
+			enemyBullets.at(randTarget).LaunchBullet(enemySlots.at(randTarget), shipSlots.at(randTarget));
+		}
+		
+		//enemyBullets.at(0).SetCanShoot(false);
 	}
 
+	/* Handle how enemies destroy hangars */
 	for (auto& bullet : enemyBullets) {
-		if (bullet.GetLaunched() && bullet.GoToTarget(deathCount) /*&& (kill_count == enemySlots.size())*/) {
-			enemyBullets.at(0).SetCanShoot(true);
+		if (bullet.GetLaunched() && bullet.GoToTarget(hangarCount) /*&& (kill_count == enemySlots.size())*/) {
+			enemyBullets.at(0).SetCanShoot(std::count_if(shipSlots.begin(), shipSlots.end(), [](LineSlot slot) {return slot.IsAlive(); }) > 0);
 			//instructions1 = winMessage;
 			//instructions2 = "";
 		}
