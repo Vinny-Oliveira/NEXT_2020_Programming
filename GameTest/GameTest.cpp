@@ -50,7 +50,7 @@ bool isGameLost{ false };
 
 // Messages for the user
 std::string instructions1 = "Move around the outer shape with arrow keys and shoot the inner shape with space.";
-std::string instructions2 = "Your bullets are recyclable, but you only have 5!";
+std::string instructions2 = "Your blaster needs to cooldown after 5 shots!";
 std::string kill_score = "Kill count: 0/0";
 std::string hangarsRemaining = "Hangars remaining: 0/0";
 std::string winMessage = "You win!";
@@ -68,7 +68,6 @@ void Init() {
 	int corners{ 4 };
 	float scale{ 0.25f };
 	float offset{ 3 * size / 8 };
-
 
 	// Slots of the outer shape
 	shipCoordinates = PolygonUtil::PolygonCoordinates(sx, sy, size, corners);
