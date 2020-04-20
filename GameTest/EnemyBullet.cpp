@@ -11,17 +11,17 @@ EnemyBullet::EnemyBullet(CSimpleSprite bullet, CSimpleSprite ship, LineSlot line
 
 }
 
+// Copy constructor
 EnemyBullet::EnemyBullet(const EnemyBullet& source)
 	: Bullet{ source } {
 
 }
 
+// Move constructor
 EnemyBullet::EnemyBullet(EnemyBullet&& source) noexcept {
 	bulletSprite = source.bulletSprite;
-	//shipSprite = source.shipSprite;
 	target = source.target;
 	source.bulletSprite = nullptr;
-	//source.shipSprite = nullptr;
 	source.target = nullptr;
 }
 

@@ -17,11 +17,10 @@ namespace PolygonUtil {
 			for (int j{ 0 }; j < corners; j++) {
 				vend_x = FindNextVertexX(vstart_x, size/corners, angle + i * 360 / corners);
 				vend_y = FindNextVertexY(vstart_y, size/corners, angle + i * 360 / corners);
+
 				vertex.first = vstart_x;
 				vertex.second = vstart_y;
 				vertices.emplace_back(vertex);
-			
-				//App::DrawLine(vstart_x, vstart_y, vend_x, vend_y, r, g, b);
 
 				vstart_x = vend_x;
 				vstart_y = vend_y;
@@ -47,14 +46,14 @@ namespace PolygonUtil {
 			return;
 		}
 
-		for (auto i{ 0 }; i < outerShape.size(); i++) {
+		for (size_t i{ 0 }; i < outerShape.size(); i++) {
 			App::DrawLine(outerShape.at(i).first, outerShape.at(i).second, innerShape.at(i).first, innerShape.at(i).second);
 		}
 	}
 
 	void PopulateShipVector(std::vector<LineSlot>& shipVec, const std::vector<std::pair<float, float>>& coordinates, float size, int corners) {
-		for (auto i{ 0 }; i < coordinates.size() - 1; i++) {
-			shipVec.emplace_back(coordinates.at(i).first, coordinates.at(i).second, coordinates.at(i + 1).first, coordinates.at(i + 1).second, size / corners);
+		for (size_t i{ 1 }; i < coordinates.size() ; i++) {
+			shipVec.emplace_back(coordinates.at(i - 1).first, coordinates.at(i - 1).second, coordinates.at(i).first, coordinates.at(i).second, size / corners);
 		}
 	}
 

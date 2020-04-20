@@ -32,26 +32,17 @@ Bullet::~Bullet() {
 	delete target;
 }
 
-// Launch a bullet from the ship and set its target
+void Bullet::CreateSprite(int frame) {
+	bulletSprite = App::CreateSprite(".\\TestData\\Ships.bmp", 2, 12);
+	bulletSprite->SetFrame(frame);
+	bulletSprite->SetScale(0.8f);
+}
+
 void Bullet::LaunchBullet(LineSlot& new_target) {
 	isLaunched = true;
 	MatchShipPosition();
 	DefineTarget(new_target);
 	CalculateSlope();
-}
-
-void Bullet::DefineTarget(LineSlot& new_target) {
-	target = &new_target;
-	xTarget = target->GetCenterX();
-	yTarget = target->GetCenterY();
-}
-
-void Bullet::CalculateSlope() {
-	if (fabsf(xTarget - xPos) < 0.0001f) {
-		slope = NAN;
-	} else {
-		slope = (yTarget - yPos) / (xTarget - xPos);
-	}
 }
 
 // Make the bullet travel to its target following a line
@@ -94,8 +85,16 @@ void Bullet::MatchShipPosition() {
 	bulletSprite->SetAngle(shipSprite->GetAngle());
 }
 
-void Bullet::CreateSprite(int frame) {
-	bulletSprite = App::CreateSprite(".\\TestData\\Ships.bmp", 2, 12);
-	bulletSprite->SetFrame(frame);
-	bulletSprite->SetScale(0.8f);
+void Bullet::DefineTarget(LineSlot& new_target) {
+	target = &new_target;
+	xTarget = target->GetCenterX();
+	yTarget = target->GetCenterY();
+}
+
+void Bullet::CalculateSlope() {
+	if (fabsf(xTarget - xPos) < 0.0001f) {
+		slope = NAN;
+	} else {
+		slope = (yTarget - yPos) / (xTarget - xPos);
+	}
 }

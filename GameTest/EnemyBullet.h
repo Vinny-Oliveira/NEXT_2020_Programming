@@ -5,6 +5,7 @@
 
 class EnemyBullet : public Bullet {
 private:
+	// Static variable to determine if the bullets may be shot
 	static bool canShoot;
 
 public:
